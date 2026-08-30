@@ -55,11 +55,12 @@ The governing questions are:
 - What is the narrowest adaptation that preserves that intent?
 - How do we prove that an adaptation is not becoming an unreviewed escape?
 
-Structural rules are applied first. Applicability profiles then determine how
-runtime-dependent rules are expressed. Convenience alone is not a reason to
-bypass a rule. Literal use of a runtime example that breaks the host contract
-is not compliance, but neither is invoking runtime adaptability to escape the
-MECHSUITS structure.
+The structural constitution governs first in authority. Runtime and artifact
+classification occurs before choosing its physical expression, and an approved
+specialized profile then governs runtime-dependent behavior. Convenience alone
+is not a reason to bypass a rule. Literal use of a runtime example that breaks
+the host contract is not compliance, but neither is invoking runtime
+adaptability to escape the MECHSUITS structure.
 
 ### 1.1 Universal structural constitution
 
@@ -87,7 +88,7 @@ artifact from it.
 Version 1.6.0 preserves the v1.5.x hierarchy and documentation guarantees while
 adding:
 
-- Runtime and artifact applicability profiles.
+- Runtime and artifact classification with approved specialized profiles.
 - Native-contract precedence for host hooks and callbacks.
 - Controlled variances with compensating controls.
 - A collision-safe codename derivation algorithm.
@@ -102,18 +103,18 @@ adding:
 
 ---
 
-## 2. Applicability After Structural Classification
+## 2. Classification and Structural Expression
 
-Every artifact MUST receive the universal structural treatment that its native
-format permits. It is then classified so runtime-dependent rules can be
-expressed correctly. Classification never determines whether MECHSUITS
-structure matters; it determines where that structure lives and how behavioral
-contracts are implemented.
+Every artifact is governed first in authority by the universal structural
+constitution. Before that constitution is physically applied, the artifact
+MUST be classified so MECHSUITS can determine the required structural
+expression and runtime-dependent rules. Classification selects how MECHSUITS
+is expressed; it never determines whether MECHSUITS applies.
 
-### 2.1 Runtime profiles
+### 2.1 Runtime classes
 
-Use one primary runtime profile and any necessary secondary profile. Common
-universal profiles include:
+Declare one primary runtime class and any necessary secondary class. Common
+universal classes include:
 
 - `browser_client`: Framework-independent browser code.
 - `node_tooling`: Build, test, packaging, migration, or release tooling run by
@@ -124,14 +125,15 @@ universal profiles include:
 - `worker`: A worker or background execution context.
 - `static_only`: Data with no executable runtime.
 
-Host-specific profiles such as `foundry_client`, `ios_app`, `embedded_device`,
-or `barcode_scanner` belong in separately approved profile documents. Their
-absence from this list does not make MECHSUITS inapplicable.
+Specialized runtime profiles may define additional classes such as
+`foundry_client`, `ios_app`, `embedded_device`, or `barcode_scanner`. Such
+classes belong in separately approved profile documents. Their absence from
+this list does not make MECHSUITS inapplicable.
 
 Do not infer that Node.js is available merely because TypeScript or a bundler
-is used. Build-time Node.js and shipped browser runtime are separate profiles.
+is used. Build-time Node.js and shipped browser runtime are separate classes.
 
-### 2.2 Artifact profiles
+### 2.2 Artifact classes
 
 Classify each artifact as one of:
 
@@ -148,7 +150,7 @@ Classify each artifact as one of:
 
 ### 2.3 Applicability declaration
 
-Every executable file banner MUST declare its runtime and artifact profiles.
+Every executable file banner MUST declare its runtime and artifact classes.
 Non-commentable artifacts MUST be covered by a sidecar that declares them.
 
 Example:
@@ -171,11 +173,16 @@ and a narrow boundary.
 Native-contract precedence is adaptation, not exemption. It MUST NOT be used
 to avoid documentation, validation, safety, or testing that remains possible.
 
-### 2.5 Adding a code-specific profile
+### 2.5 Adding a specialized runtime profile
 
 When several artifacts share a runtime whose native contracts are not
-adequately covered, create an owner-approved code-specific profile instead of
-accumulating repeated variances. A profile MUST define:
+adequately covered, create an owner-approved specialized runtime profile
+instead of accumulating repeated variances. `Specialized profile` is the
+general category for an approved extension document; a `runtime profile` is a
+specialized profile that governs a host or runtime. Runtime and artifact
+classes remain applicability declarations, not extension documents.
+
+A specialized runtime profile MUST define:
 
 - Runtime and artifact scope.
 - Native lifecycle and callback contracts.
@@ -188,9 +195,10 @@ accumulating repeated variances. A profile MUST define:
 - Required verification.
 - Which generic rules are adapted and how their design intent is preserved.
 
-A profile MAY strengthen MECHSUITS for its runtime. It MUST NOT weaken any item
-in Section 1.1. New profiles require explicit Mord Eagle approval and become an
-additive part of the unified standard rather than informal local custom.
+A specialized profile MAY strengthen MECHSUITS for its scope. It MUST NOT
+weaken any item in Section 1.1. New profiles require explicit Mord Eagle
+approval and become an additive part of the unified standard rather than
+informal local custom.
 
 ---
 
@@ -232,9 +240,9 @@ Example:
 //   variances:
 //     - rule: "uniform result envelope"
 //       class: "ADAPTED"
-//       reason: "The host before-update callback uses false to cancel an update."
+//       reason: "The host before-update callback uses false to cancel."
 //       preserved_intent: "Stable, documented failure behavior at the edge."
-//       compensating_control: "Validate before returning and test false cancellation."
+//       compensating_control: "Validate first and test false cancellation."
 //       scope: "[ATLAS_RECORD_EVENTS:EVENTS:BEFORE_UPDATE]"
 //       review: "Revisit if the host changes the callback contract."
 ```
@@ -252,7 +260,7 @@ The following are never valid variance reasons:
 - The author does not want to update an inaccurate banner or tree.
 
 Repeated variances for the same reason SHOULD trigger a runtime or artifact
-profile improvement rather than permanent repetition.
+specialized-profile improvement rather than permanent repetition.
 
 ---
 
@@ -391,9 +399,10 @@ This deliberately allows a maintainer to see that a file last changed in
 // one refusal in plain language.
 ```
 
-Fields that are genuinely inapplicable MAY be omitted only when the runtime
-profile says they are optional or a valid variance records why. Do not fill a
-banner with fictional metrics, transports, secrets, or performance claims.
+Fields that are genuinely inapplicable MAY be omitted only when the active
+specialized profile says they are optional or a valid variance records why.
+Do not fill a banner with fictional metrics, transports, secrets, or
+performance claims.
 
 ### 5.2.1 Profile-specific capability blocks
 
@@ -659,8 +668,8 @@ copy every type into prose. Documentation must add understanding.
 
 ### 7.3 Inline notes
 
-Use inline notes generously where they preserve non-obvious reasoning, while
-avoiding narration of routine syntax. Useful prefixes include:
+Use inline notes deliberately and frequently enough to preserve non-obvious
+reasoning, while avoiding narration of routine syntax. Useful prefixes include:
 
 - `CHOICE:` Why this implementation was selected.
 - `ALT:` A materially plausible alternative.
@@ -740,8 +749,9 @@ documentation.
 
 ### 7.7 Changelog and roadmap governance
 
-A multi-file project SHOULD maintain both records unless the owner explicitly
-declares them inapplicable:
+A multi-file project MUST maintain both records unless the owner explicitly
+declares either one inapplicable in the project architecture record or another
+owner-authoritative policy document:
 
 - `CHANGELOG.md` is an append-only historical ledger. New releases add entries;
   published history is not silently rewritten. Material factual corrections
@@ -768,7 +778,7 @@ planning context.
 The banner MUST declare the order that matters for its runtime. Implement and
 test that order where an ordering failure could change behavior.
 
-### 8.1 Profile examples
+### 8.1 Runtime class examples
 
 - `browser_client`: parse, validate, authorize, mutate, render, notify.
 - `node_tooling`: parse arguments, validate, load, transform, write, verify.
@@ -893,7 +903,8 @@ operational claims.
   explicit owner design, user disclosure, consent, redaction, and retention
   policy.
 
-An approved runtime profile or project policy selects the default mode.
+An approved specialized runtime profile or project policy selects the default
+mode.
 External telemetry is forbidden unless Mord Eagle explicitly authorizes it
 and the user-facing privacy design is completed.
 
@@ -936,10 +947,10 @@ Distinguish time sources explicitly:
 - Host world time for fictional or simulation time.
 - User locale for human display only.
 
-The active runtime profile MUST name any host simulation-time source and keep
-it distinct from wall-clock and monotonic time. Never infer fictional or
-simulated time from elapsed real time unless the feature explicitly promises
-that link.
+The active specialized runtime profile MUST name any host simulation-time
+source and keep it distinct from wall-clock and monotonic time. Never infer
+fictional or simulated time from elapsed real time unless the feature
+explicitly promises that link.
 
 Timers document:
 
@@ -951,7 +962,7 @@ Timers document:
 - Whether state is persistent or session-only.
 
 Machine timestamps use an unambiguous UTC representation. Human-facing dates
-use the campaign or user display policy. Randomized behavior that affects
+use the host, project, or user display policy. Randomized behavior that affects
 persistent state SHOULD expose a testable random seam.
 
 ---
@@ -984,16 +995,17 @@ capabilities disable only the affected feature and produce a useful next step.
 
 ---
 
-## 14. Runtime Profile Contract
+## 14. Specialized Profile Contract
 
 The universal standard governs structure, identity, documentation, history,
-and safe modification. A separately approved runtime profile adds the native
-behavioral rules needed by a host, framework, platform, language, or artifact
-family.
+and safe modification. A separately approved specialized profile adds the
+native behavioral rules needed by a host, framework, platform, language, or
+artifact family. A runtime profile is a specialized profile governing a host
+or runtime.
 
 ### 14.1 Additive relationship
 
-A runtime profile MUST:
+A specialized profile MUST:
 
 - Cite the MECHSUITS core version it extends.
 - Define its scope and how an artifact declares applicability.
@@ -1135,7 +1147,7 @@ A sidecar records:
 - A compact MECHSUITS banner with codename, project version, purpose,
   applicability, refusals, and a file-scoped canonical tree.
 - Covered artifacts.
-- Runtime and artifact profiles.
+- Runtime and artifact classes.
 - Source of truth.
 - Ownership and purpose.
 - Schema or format contract.
@@ -1200,13 +1212,13 @@ collection or transmission.
 ### 17.1 Required refusals
 
 Refusals are owner-authored policy. Assistants do not add, remove, or strengthen
-them without authorization. At minimum, code honors applicable refusals such
-as:
+them without authorization. Code MUST honor every applicable owner-adopted
+refusal. Common refusal policies include:
 
 - Never log credentials, access keys, or private tokens.
 - Never reveal restricted information to unauthorized users.
-- Never send campaign data to an external service without explicit design and
-  consent.
+- Never send project-controlled, user-controlled, confidential, or restricted
+  data to an external service without explicit design and required consent.
 - Never trust client-provided authority.
 - Never silently overwrite user-authored data.
 
@@ -1250,7 +1262,7 @@ a false tree, unstable identity, missing history, or undocumented behavior.
 
 ### Identity and applicability
 
-- The runtime and artifact profiles are declared.
+- The runtime and artifact classes are declared.
 - Every variance is narrow, justified, compensated, and reviewable.
 
 ### File truth
@@ -1310,9 +1322,12 @@ a false tree, unstable identity, missing history, or undocumented behavior.
 - Vendored code and licenses remain intact.
 - Human-delivered code uses whole-section replacement unless a valid snippet
   exception is declared.
-- The changelog preserves published history and records affected notable work.
-- The roadmap reflects current direction and retains recent completed
-  milestones or links to their historical record.
+- The project maintains the changelog and roadmap required by Section 7.7, or
+  records the owner's declaration that either record is inapplicable.
+- Where maintained, the changelog preserves published history and records
+  affected notable work.
+- Where maintained, the roadmap reflects current direction and retains recent
+  completed milestones or links to their historical record.
 - The final diff contains no accidental deletions or unrelated cleanup.
 
 Partial compliance is non-compliance when a full compliance claim is made.
@@ -1329,7 +1344,8 @@ Before editing:
    codenames, current project version, and relevant documentation.
 2. Audit the universal structural constitution: identity, tree, frames,
    documentation, history, and delivery boundaries.
-3. Classify runtime and artifact profiles.
+3. Classify the runtime and artifact before selecting their structural
+   expression.
 4. Read the complete banner and affected section frames.
 5. Identify native host contracts and directly affected dependencies.
 6. Decide whether any runtime variance is genuinely required.
@@ -1563,7 +1579,7 @@ does not replace any file's canonical tree.
 
 ---
 
-## Appendix E. Profile Selection Summary
+## Appendix E. Classification and Structural Expression Summary
 
 | Artifact | Full banner | Framed sections | Sidecar | Native contract |
 |---|---:|---:|---:|---:|
