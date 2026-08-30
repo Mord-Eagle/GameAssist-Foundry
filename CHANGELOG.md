@@ -8,6 +8,8 @@ user-visible behavior.
 
 - Add new release entries; do not rewrite published release history.
 - Put current work under `Unreleased` until a release is published.
+- Date every entry using ISO `YYYY-MM-DD`. Published release headings include
+  their release date; each `Unreleased` bullet begins with its own change date.
 - Preserve accurate prior entries even when the implementation later changes.
 - Correct a material historical error with a dated correction note rather than
   silently replacing the original account.
@@ -27,26 +29,29 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Added
 
-- Established the GameAssist-Foundry repository for the Foundry VTT edition of
-  GameAssist.
-- Added MECHSUITS v1.5.2 as preserved historical project guidance.
-- Added MECHSUITS v1.6.0 as the universal structural and documentation core.
-- Added the Foundry VTT v1.0.0 additive MECHSUITS profile for Foundry-specific
-  lifecycle, Document, authority, privacy, UI, and game-system contracts.
-- Added a proprietary MECHSUITS notice that separates the standard from the
-  repository's open-source license.
-- Added this append-only changelog and the living project roadmap.
+- 2026-08-29 - Established the GameAssist-Foundry repository for the Foundry
+  VTT edition of GameAssist.
+- 2026-08-29 - Added MECHSUITS v1.5.2 as deprecated historical guidance;
+  MECHSUITS v1.6.0 and its approved profiles govern current repository work.
+- 2026-08-29 - Added MECHSUITS v1.6.0 as the universal structural and
+  documentation core.
+- 2026-08-29 - Added the Foundry VTT v1.0.0 additive MECHSUITS profile for
+  Foundry-specific lifecycle, Document, authority, privacy, UI, and game-system
+  contracts.
+- 2026-08-29 - Added a proprietary MECHSUITS notice that separates the standard
+  from the repository's open-source license.
+- 2026-08-29 - Added this append-only changelog and the living project roadmap.
 
 ### Documentation
 
-- Defined file-touch `project_version` semantics, collision-safe codename
-  derivation, project architecture records, controlled runtime variances, and
-  grouped sidecars.
-- Strengthened requirements for section narratives, JSDoc/TSDoc or language
-  equivalents, purposeful inline notes, and Notes & Comments footers.
+- 2026-08-29 - Defined file-touch `project_version` semantics, collision-safe
+  codename derivation, project architecture records, controlled runtime
+  variances, and grouped sidecars.
+- 2026-08-29 - Strengthened requirements for section narratives, JSDoc/TSDoc or
+  language equivalents, purposeful inline notes, and Notes & Comments footers.
+- 2026-08-29 - Required ISO date stamps for every changelog entry.
 
 ### Known Limitations
 
-- No installable Foundry module release has been published yet.
-
+- 2026-08-29 - No installable Foundry module release has been published yet.
 
