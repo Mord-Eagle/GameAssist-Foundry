@@ -1,5 +1,10 @@
 **MECHSUITS v1.5.2 — Human-Readable, Assistant-Ready Standard**
 
+> **Deprecated historical standard.** MECHSUITS v1.5.2 is retained solely to
+> preserve the development history of the standard. Do not use it to govern
+> new or modified repository work. MECHSUITS v1.6.0 and the applicable approved
+> runtime profiles govern GameAssist-Foundry.
+
 **[Mord Eagle Coding Hierarchy, Structure, Using Incrementally Tailored Sections]**
 
 MECHSUITS exists to make code safe to change through clear structure, explicit contracts, and teaching commentary. Version 1.5.2 keeps the v1.5.x guarantees and adds hardening against over-literal assistant behavior: identifiers are **literal and owner-authoritative** (never “normalized” or “namespace-safed”), defaults are fallbacks used only when a value is absent, and “recommended” guidance must not be treated as an implicit MUST.
