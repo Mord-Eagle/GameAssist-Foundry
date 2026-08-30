@@ -5,8 +5,8 @@
 Copyright (c) 2026 Mord Eagle. All rights reserved.
 
 MECHSUITS is a proprietary specification owned by Mord Eagle. It is not
-licensed under the MIT License that applies to the surrounding GameAssist
-source code. Contributors may read and apply this specification when working
+licensed under any open-source license that may apply to a surrounding
+repository. Contributors may read and apply this specification when working
 on a project expressly authorized by Mord Eagle. No permission is granted to
 copy, adapt, redistribute, or adopt MECHSUITS for another project without
 permission. Permission requests are welcome.
@@ -14,8 +14,9 @@ permission. Permission requests are welcome.
 MECHSUITS exists to make code safe to understand, change, test, and maintain.
 It does that through visible structure, explicit contracts, teaching
 commentary, stable identifiers, disciplined boundaries, and durable decision
-history. It must strengthen working software rather than force software into a
-shape that is wrong for its runtime.
+history. Structural truth and preservation are its primary doctrine. Runtime
+adaptation exists only to express that doctrine without breaking the software
+being governed.
 
 RFC 2119 terms apply. `MUST`, `MUST NOT`, `REQUIRED`, `SHOULD`, `SHOULD NOT`,
 and `MAY` carry their usual normative meanings.
@@ -42,10 +43,9 @@ MECHSUITS protects five things:
    actually exists.
 4. **Institutional memory:** Meaningful decisions, alternatives, risks,
    migrations, and prior notes survive routine maintenance.
-5. **Practical fitness:** The standard adapts to the host runtime and artifact
-   type. It never requires a construct that would break a native callback,
-   corrupt generated output, invent useless telemetry, or make stable code
-   worse merely to resemble an example.
+5. **Practical fitness:** Runtime-specific rules adapt implementation details
+   without weakening the universal structure, documentation, preservation, or
+   change-safety requirements.
 
 The governing questions are:
 
@@ -55,12 +55,34 @@ The governing questions are:
 - What is the narrowest adaptation that preserves that intent?
 - How do we prove that an adaptation is not becoming an unreviewed escape?
 
-Optimization means preserving safety, clarity, and maintainability with the
-least unnecessary complexity. Convenience alone is not a reason to bypass a
-rule. Literal compliance that produces broken or hostile code is also not
-compliance.
+Structural rules are applied first. Applicability profiles then determine how
+runtime-dependent rules are expressed. Convenience alone is not a reason to
+bypass a rule. Literal use of a runtime example that breaks the host contract
+is not compliance, but neither is invoking runtime adaptability to escape the
+MECHSUITS structure.
 
-### 1.1 What v1.6.0 changes
+### 1.1 Universal structural constitution
+
+The following requirements are protected and cannot be waived by a runtime
+profile or ordinary variance:
+
+- Owner-authoritative identifiers and stable codenames.
+- A truthful file banner and file-touch `project_version`.
+- An exact file-scoped canonical tree.
+- Paired, physically nested BEGIN and END frames.
+- Section metadata, narrative, and Notes & Comments footers.
+- Doc comments and purposeful inline notes where Section 7 requires them.
+- Meaningful-change tracking and preservation of accurate prior history.
+- Whole-section delivery when a human must place supplied code.
+- Sidecar equivalents for artifacts that cannot carry the structure directly.
+- A final structural audit before any compliance claim.
+
+The only alternate expression of a protected rule is the one explicitly
+defined by this standard, such as a sidecar for non-commentable JSON. An
+alternate expression preserves the requirement; it does not exempt the
+artifact from it.
+
+### 1.2 What v1.6.0 changes
 
 Version 1.6.0 preserves the v1.5.x hierarchy and documentation guarantees while
 adding:
@@ -72,24 +94,27 @@ adding:
 - File-touch project-version semantics for multi-file repositories.
 - Capability-scaled observability instead of server-only assumptions.
 - Grouped sidecars for related non-commentable artifacts.
-- Explicit Foundry VTT client, hook, document, settings, socket, and build rules.
+- A profile system for host- and runtime-specific rule sets.
 - A project-level architecture registry that complements file-scoped trees.
 - Clear separation between hand-authored source and generated distribution
   output.
+- Stronger doc-comment, inline-note, footer, changelog, and roadmap governance.
 
 ---
 
-## 2. Applicability Before Implementation
+## 2. Applicability After Structural Classification
 
-Every artifact MUST be classified before MECHSUITS rules are applied. The
-classification determines how the standard is expressed, not whether the
-standard matters.
+Every artifact MUST receive the universal structural treatment that its native
+format permits. It is then classified so runtime-dependent rules can be
+expressed correctly. Classification never determines whether MECHSUITS
+structure matters; it determines where that structure lives and how behavioral
+contracts are implemented.
 
 ### 2.1 Runtime profiles
 
-Use one primary runtime profile and any necessary secondary profile:
+Use one primary runtime profile and any necessary secondary profile. Common
+universal profiles include:
 
-- `foundry_client`: Code executed inside the Foundry VTT browser client.
 - `browser_client`: Framework-independent browser code.
 - `node_tooling`: Build, test, packaging, migration, or release tooling run by
   Node.js outside the shipped client runtime.
@@ -98,6 +123,10 @@ Use one primary runtime profile and any necessary secondary profile:
 - `cli`: A command-line interface.
 - `worker`: A worker or background execution context.
 - `static_only`: Data with no executable runtime.
+
+Host-specific profiles such as `foundry_client`, `ios_app`, `embedded_device`,
+or `barcode_scanner` belong in separately approved profile documents. Their
+absence from this list does not make MECHSUITS inapplicable.
 
 Do not infer that Node.js is available merely because TypeScript or a bundler
 is used. Build-time Node.js and shipped browser runtime are separate profiles.
@@ -126,9 +155,9 @@ Example:
 
 ```ts
 //   applicability:
-//     runtime: "foundry_client"
+//     runtime: "browser_client"
 //     artifact: "source"
-//     host_contracts: ["Foundry Hooks", "ApplicationV2"]
+//     host_contracts: ["DOM Events", "Web Components"]
 ```
 
 ### 2.4 Native-contract precedence
@@ -159,11 +188,9 @@ accumulating repeated variances. A profile MUST define:
 - Required verification.
 - Which generic rules are adapted and how their design intent is preserved.
 
-A profile MAY strengthen MECHSUITS for its runtime. It MUST NOT weaken stable
-identifiers, truthful banners and trees, framed ownership, decision history,
-data safety, or the controlled-variance requirements. New profiles require
-explicit Mord Eagle approval and become part of the unified standard rather
-than informal local custom.
+A profile MAY strengthen MECHSUITS for its runtime. It MUST NOT weaken any item
+in Section 1.1. New profiles require explicit Mord Eagle approval and become an
+additive part of the unified standard rather than informal local custom.
 
 ---
 
@@ -172,6 +199,10 @@ than informal local custom.
 MECHSUITS permits a variance only when the literal rule is not applicable or
 would materially harm correctness, host compatibility, security,
 maintainability, or generated-source integrity.
+
+Variances apply only to runtime-dependent implementation rules. They cannot
+waive Section 1.1. Where a format cannot carry the protected structure, the
+required sidecar or other standard-defined equivalent is mandatory.
 
 ### 3.1 Variance classes
 
@@ -201,11 +232,11 @@ Example:
 //   variances:
 //     - rule: "uniform result envelope"
 //       class: "ADAPTED"
-//       reason: "Foundry preUpdateActor hooks use false to cancel an update."
+//       reason: "The host before-update callback uses false to cancel an update."
 //       preserved_intent: "Stable, documented failure behavior at the edge."
-//       compensating_control: "Validate before the hook result and test false cancellation."
-//       scope: "[GAMEASSIST_ACTOR_HOOKS:HOOKS:PRE_UPDATE]"
-//       review: "Revisit if Foundry changes the hook contract."
+//       compensating_control: "Validate before returning and test false cancellation."
+//       scope: "[ATLAS_RECORD_EVENTS:EVENTS:BEFORE_UPDATE]"
+//       review: "Revisit if the host changes the callback contract."
 ```
 
 ### 3.3 Variance refusal
@@ -271,14 +302,14 @@ Hawk/server.ts
 Falcon/main.ts
   -> FALCON_MAIN
 
-GameAssist-Foundry/src/core/index.ts
-  -> GAMEASSIST_FOUNDRY_CORE_INDEX
+Atlas/src/core/index.ts
+  -> ATLAS_CORE_INDEX
 
-GameAssist-Foundry/src/modules/effect/index.ts
-  -> GAMEASSIST_FOUNDRY_EFFECT_INDEX
+Atlas/src/features/search/index.ts
+  -> ATLAS_SEARCH_INDEX
 
-GameAssist-Foundry/src/modules/effect/settings.ts
-  -> GAMEASSIST_FOUNDRY_EFFECT_SETTINGS
+Atlas/src/features/search/settings.ts
+  -> ATLAS_SEARCH_SETTINGS
 ```
 
 Common generic basenames include `index`, `main`, `entry`, `settings`,
@@ -318,7 +349,7 @@ file display the latest package release.
 - The package manifest remains authoritative for the currently distributed
   package version.
 - Section `last_updated_version` has separate meaningful-change semantics
-  defined in Section 14.
+  defined in Section 15.
 
 This deliberately allows a maintainer to see that a file last changed in
 `v0.2.6` while the package is currently `v0.7.9`.
@@ -328,34 +359,33 @@ This deliberately allows a maintainer to see that a file last changed in
 ```ts
 // --- MECHSUITS BANNER (YAML) ---
 // mechsuit:
-//   codename: "GAMEASSIST_FOUNDRY_EFFECT_HOOKS"
+//   codename: "ATLAS_SEARCH_SERVICE"
 //   project_version: "vX.Y.Z"
 //   purpose: "One paragraph naming the guarantee and non-goals."
 //   order: ["validate", "authorize", "apply", "observe"]
 //   applicability:
-//     runtime: "foundry_client"
+//     runtime: "browser_client"
 //     artifact: "source"
-//     host_contracts: ["Foundry Hooks"]
+//     host_contracts: ["DOM Events"]
 //   data_class: "Internal"
 //   ai_data: "none"
 //   refusals:
-//     - "Never mutate Foundry document source data directly."
+//     - "Never overwrite user-authored records without confirmation."
 //   observability:
 //     mode: "local_diagnostics"
 //     logs: "bounded and redacted"
 //     metrics: []
 //     spans: []
 //   compatibility:
-//     foundry: { minimum: "14", verified: "14" }
-//     systems: ["dnd5e"]
+//     browsers: { minimum: "project support matrix", verified: "current CI" }
 //   policy:
-//     notes_ref: "[GAMEASSIST_FOUNDRY_EFFECT_HOOKS:POLICY]"
+//     notes_ref: "[ATLAS_SEARCH_SERVICE:POLICY]"
 //   variances: []
 //   canonical_tree: |
-//     [GAMEASSIST_FOUNDRY_EFFECT_HOOKS]/
-//     |-- [GAMEASSIST_FOUNDRY_EFFECT_HOOKS:POLICY]
-//     `-- [GAMEASSIST_FOUNDRY_EFFECT_HOOKS:HOOKS]
-//         `-- [GAMEASSIST_FOUNDRY_EFFECT_HOOKS:HOOKS:READY]
+//     [ATLAS_SEARCH_SERVICE]/
+//     |-- [ATLAS_SEARCH_SERVICE:POLICY]
+//     `-- [ATLAS_SEARCH_SERVICE:EVENTS]
+//         `-- [ATLAS_SEARCH_SERVICE:EVENTS:READY]
 // --- prose banner ---
 // Restate the guarantee, order, last file-touch version, runtime, and at least
 // one refusal in plain language.
@@ -382,11 +412,11 @@ Examples include:
 //     transient: ["client session cache"]
 //     migrations: "[CODENAME:STATE:MIGRATIONS]"
 //   authority:
-//     model: "active GM for world mutations"
+//     model: "authenticated owner for persistent mutations"
 //     stale_operation_policy: "reject"
 //   performance:
-//     hot_paths: ["updateCombat hook"]
-//     budgets: ["no full-world scan in a high-frequency hook"]
+//     hot_paths: ["input event"]
+//     budgets: ["no full-dataset scan on each keystroke"]
 ```
 
 For a Node service, the corresponding applicable blocks may include:
@@ -445,13 +475,13 @@ Each section MUST include:
 
 ```ts
 // mechsuit_section: {
-//   codename: "GAMEASSIST_FOUNDRY_EFFECT_HOOKS",
-//   area: "HOOKS:READY",
+//   codename: "ATLAS_SEARCH_SERVICE",
+//   area: "LIFECYCLE:READY",
 //   title: "Ready lifecycle binding",
-//   guarantees: ["Registers the effect runtime exactly once."],
-//   depends_on: ["[GAMEASSIST_FOUNDRY_EFFECT_HOOKS:POLICY]"],
-//   provides: ["registerEffectReadyHook"],
-//   seams: ["Hooks.once('ready')"],
+//   guarantees: ["Registers the search runtime exactly once."],
+//   depends_on: ["[ATLAS_SEARCH_SERVICE:POLICY]"],
+//   provides: ["registerSearchRuntime"],
+//   seams: ["host.onReady"],
 //   risks: ["Duplicate registration after hot reload."],
 //   last_updated_version: "vX.Y.Z",
 //   lifecycle: "active"
@@ -539,49 +569,195 @@ place them under one tree.
 
 ## 7. Teaching Commentary and Decision Memory
 
-Comments teach what cannot be safely inferred from syntax.
+Comments teach what cannot be safely inferred from syntax and preserve why the
+code has its present shape. MECHSUITS uses a documentation stack; no one layer
+is expected to carry every kind of knowledge.
 
-### 7.1 Docblocks
+### 7.1 Documentation stack
 
-Validators, normalizers, migrations, public APIs, state writers, host adapters,
-and business rules SHOULD explain:
+1. **File banner:** File purpose, order, runtime, compatibility, refusals, and
+   file-touch provenance.
+2. **Canonical tree and frames:** Physical ownership and navigable hierarchy.
+3. **Section metadata and narrative:** Section-level contracts, composition,
+   dependencies, seams, risks, and invariants.
+4. **Doc comments:** Symbol-level contracts for functions, classes, interfaces,
+   hooks, services, and state operations.
+5. **Inline notes:** Local reasons, invariants, hazards, and branch-specific
+   knowledge placed beside the relevant code.
+6. **Notes & Comments footer:** Durable change history, choices, trade-offs,
+   rollback information, future seams, and prior notes.
+7. **Project records:** Architecture, changelog, roadmap, ADRs, and public
+   documentation at their proper scope.
 
-- Context.
-- Inputs and accepted shapes.
-- Outputs and native return contracts.
-- Invariants.
-- Failure modes.
-- Permission and privacy effects.
-- Edge cases.
-- Design reason.
+These layers work in concert. A thorough footer does not excuse a missing
+function contract. A JSDoc block does not excuse an inaccurate section
+narrative. Project documentation does not replace local reasoning beside the
+code it governs.
 
-### 7.2 Inline notes
+### 7.2 Doc comments and docstrings
 
-Use these sparingly and intentionally:
+Use the host language's standard documentation form: JSDoc or TSDoc for
+JavaScript and TypeScript, docstrings for Python, documentation comments for
+Swift, XML documentation for C#, or the closest established equivalent.
+
+Doc comments are REQUIRED for:
+
+- Exported or public functions, classes, services, and extension APIs.
+- Host hooks, callbacks, delegates, event handlers, and lifecycle entry points.
+- Validators, normalizers, parsers, serializers, and migration functions.
+- State writers, transactions, destructive operations, and ownership changes.
+- Permission, authority, privacy, or security decisions.
+- Timers, retries, queues, sockets, asynchronous workflows, and idempotent
+  operations.
+- Business rules and algorithms whose purpose or invariants are not obvious.
+- Compatibility adapters and uses of private or unstable host behavior.
+
+Doc comments are recommended for substantial internal helpers. They MAY be
+omitted for a trivial private helper when its name, types, implementation, and
+surrounding section make its complete contract genuinely obvious.
+
+An applicable doc comment explains:
+
+- Purpose and context.
+- Parameters and accepted forms without mechanically repeating static types.
+- Return value and any native host return contract.
+- Thrown errors, failure results, cancellation, or refusal behavior.
+- Side effects and state ownership.
+- Permissions, authority, and privacy effects.
+- Lifecycle and ordering requirements.
+- Idempotency, retry, or stale-operation behavior where applicable.
+- Important invariants and edge cases.
+- The design reason when the symbol's existence or shape is not self-evident.
+- A concise example when correct use would otherwise be easy to misunderstand.
+
+Example:
+
+```ts
+/**
+ * Applies a validated record request through the authoritative data owner.
+ *
+ * The request must already contain canonical record identifiers. This
+ * operation revalidates permissions and record existence immediately before
+ * writing because menu submissions can become stale while awaiting a user.
+ *
+ * @param request - Canonical record update prepared by the UI adapter.
+ * @returns A stable operation result; retries with the same operation ID are
+ * idempotent.
+ * @throws Never for an expected permission or stale-record refusal; those
+ * are returned as structured failures.
+ *
+ * Side effects: may update host-owned records and project-owned metadata.
+ * Authority: only the owning user or designated executor may write.
+ */
+async function applyRecord(request: RecordRequest): Promise<RecordResult> {
+  // Implementation belongs inside the owning framed section.
+}
+```
+
+Do not produce ceremonial docblocks that merely restate a function name or
+copy every type into prose. Documentation must add understanding.
+
+### 7.3 Inline notes
+
+Use inline notes generously where they preserve non-obvious reasoning, while
+avoiding narration of routine syntax. Useful prefixes include:
 
 - `CHOICE:` Why this implementation was selected.
 - `ALT:` A materially plausible alternative.
 - `REJECTED:` Why the alternative was not selected.
 - `DANGER:` A hazardous or surprising operation and its containment.
 - `WHY:` A short explanation for a non-obvious line.
+- `INVARIANT:` A condition that surrounding logic depends upon.
+- `OWNERSHIP:` Which layer or actor may mutate the value.
+- `COMPAT:` A host, platform, or version-specific reason.
+- `PRIVACY:` Why information is withheld, redacted, or scoped.
+- `ORDER:` Why this operation must precede or follow another.
 - `EXEMPT:` A local policy exception that meets Section 3.
 
-Do not narrate obvious assignments or restate function names.
+Place the note as close as practical to the line or branch it explains. A
+future maintainer should not have to search a distant document to understand a
+surprising local decision.
+
+Comments are expected around non-obvious branches, compatibility workarounds,
+state-repair logic, stale-operation checks, permissions, rollback paths,
+cross-module seams, and intentionally absent behavior.
 
 When a design decision has real, consequential alternatives, document up to
 three useful patterns or options and recommend one. Do not manufacture three
 choices as ritual or busywork. When only one approach fits the host contract,
 state that approach directly.
 
-### 7.3 Preserve useful history
+### 7.4 Behavior-change recording rule
+
+When a new section is introduced or behavior changes, the change MUST be
+recorded in the same edit:
+
+- The section footer records the durable historical change.
+- A required doc comment is created or updated for every affected contract or
+  behavior-bearing symbol.
+- An inline note is added or updated where the reason, invariant, risk, or
+  compatibility constraint would not otherwise be apparent locally.
+- Project changelog, roadmap, architecture, and public documentation are
+  updated when their respective scope is affected.
+
+Minor mechanical edits do not require new explanation at every line. They do
+require a Maintenance footer entry when the framed section itself is edited.
+
+An inaccurate comment is a defect. Update or supersede it in the same change
+that invalidates it.
+
+### 7.5 Footer depth
+
+Footers SHOULD be plentiful enough to reconstruct the important evolution of a
+section. They record:
+
+- What changed and why.
+- User-visible or dependent-contract effects.
+- Alternatives considered and rejected.
+- Trade-offs and known limitations.
+- Migration, rollback, and repair information.
+- Compatibility assumptions.
+- Future seams that were intentionally left open.
+- Accurate prior notes retained from earlier revisions.
+
+Do not collapse years of useful history into `updated code`. Do not preserve
+false notes merely because they are old; mark them superseded and explain the
+replacement.
+
+### 7.6 Preserve useful history
 
 Do not delete accurate prior notes merely because an implementation changed.
 Move durable context into the footer. Remove or correct commentary that became
 false, while recording why it was superseded.
 
+Open work markers such as `TODO`, `FIXME`, or `DANGER` MUST identify the reason,
+owner or issue when known, and the condition for removal. They cannot serve as
+a substitute for an issue, footer note, or documented limitation.
+
 Public README material describes user-visible behavior. Internal decision
 history remains in source comments, architecture records, ADRs, and developer
 documentation.
+
+### 7.7 Changelog and roadmap governance
+
+A multi-file project SHOULD maintain both records unless the owner explicitly
+declares them inapplicable:
+
+- `CHANGELOG.md` is an append-only historical ledger. New releases add entries;
+  published history is not silently rewritten. Material factual corrections
+  are added as dated correction notes. Entries describe actual changes and
+  distinguish implementation, verification, testing, experimentation, and
+  known limitations when relevant.
+- `ROADMAP.md` is a living planning document. It MAY be reorganized as
+  priorities change, but material changes of direction retain enough rationale
+  to explain what changed. It keeps at least the three most recent completed
+  release milestones or moves older milestones to a maintained roadmap-history
+  record.
+
+Neither document contains internal conversation, assistant narration, or
+speculative claims presented as completed work. The changelog protects what
+happened; the roadmap explains what may happen next and preserves recent
+planning context.
 
 ---
 
@@ -592,8 +768,6 @@ test that order where an ordering failure could change behavior.
 
 ### 8.1 Profile examples
 
-- `foundry_client`: registration, `init`, `setup`, `ready`, canvas-specific
-  hooks, teardown or reload handling as applicable.
 - `browser_client`: parse, validate, authorize, mutate, render, notify.
 - `node_tooling`: parse arguments, validate, load, transform, write, verify.
 - `node_service`: middleware, routes, static assets, fallback, errors,
@@ -639,8 +813,8 @@ Domain-specific codes MAY be added when they produce a real recovery path.
 
 Envelopes SHOULD be used for:
 
-- Public GameAssist APIs.
-- Service-to-service boundaries owned by GameAssist.
+- Public project APIs.
+- Service-to-service boundaries owned by the project.
 - Socket requests and responses.
 - Migration and transaction outcomes.
 - Complex operations presented to UI controllers.
@@ -649,8 +823,8 @@ Envelopes SHOULD be used for:
 ### 9.2 Where native contracts prevail
 
 Do not wrap values when the host requires a specific return contract. Examples
-include Foundry hook callbacks, render handlers, event listeners, comparators,
-and framework predicates.
+include host lifecycle callbacks, render handlers, event listeners,
+comparators, and framework predicates.
 
 At those boundaries:
 
@@ -677,14 +851,15 @@ numbers and duplicated defaults.
 Use the mechanism appropriate to the runtime:
 
 - Compile-time constants for invariant technical limits.
-- Foundry settings for configurable world or client behavior.
+- Host settings for configurable shared or personal behavior.
 - A module policy object for internal defaults and bounds.
 - User-editable content documents only when users are intended to own that
   content.
 
 Every setting declares:
 
-- Scope: world, client, user, actor, scene, or project.
+- Scope: project, installation, account, user, session, record, device, or the
+  profile-specific equivalent.
 - Default and valid range.
 - Permission to change it.
 - Migration behavior.
@@ -708,17 +883,17 @@ operational claims.
 ### 11.1 Modes
 
 - `none`: Pure or static artifact with no meaningful runtime observation.
-- `local_diagnostics`: Redacted console output, bounded local history, or GM
-  diagnostic UI.
+- `local_diagnostics`: Redacted console output, bounded local history, or a
+  restricted diagnostic UI.
 - `structured_local`: Structured logs and counters retained locally.
 - `host_integrated`: Uses an existing host diagnostic facility.
 - `external_telemetry`: Sends data outside the host and therefore requires
   explicit owner design, user disclosure, consent, redaction, and retention
   policy.
 
-GameAssist for Foundry defaults to `local_diagnostics`. External telemetry is
-forbidden unless Mord Eagle explicitly authorizes it and the user-facing
-privacy design is completed.
+An approved runtime profile or project policy selects the default mode.
+External telemetry is forbidden unless Mord Eagle explicitly authorizes it
+and the user-facing privacy design is completed.
 
 ### 11.2 Applicable signals
 
@@ -739,8 +914,8 @@ example contains them.
 
 - Logs identify the emitting codename or section.
 - User-controlled content is redacted or bounded before logging.
-- Secrets and private GM data are never logged to player-visible surfaces.
-- High-frequency hooks avoid unbounded logging.
+- Secrets and restricted data are never logged to unauthorized surfaces.
+- High-frequency paths avoid unbounded logging.
 - Labels and dimensions remain low-cardinality.
 - Declared signals actually exist in code or are omitted.
 
@@ -759,16 +934,17 @@ Distinguish time sources explicitly:
 - Host world time for fictional or simulation time.
 - User locale for human display only.
 
-Foundry code MUST distinguish `game.time.worldTime` or the current supported
-world-time API from `Date.now()` and monotonic timing. Never infer fictional
-time from elapsed real time unless the feature explicitly promises that link.
+The active runtime profile MUST name any host simulation-time source and keep
+it distinct from wall-clock and monotonic time. Never infer fictional or
+simulated time from elapsed real time unless the feature explicitly promises
+that link.
 
 Timers document:
 
 - Ownership and cancellation.
 - Restart and reload behavior.
 - Stale callback protection.
-- Multi-client authority.
+- Multi-client, multi-process, or device authority where applicable.
 - Pause behavior.
 - Whether state is persistent or session-only.
 
@@ -781,131 +957,72 @@ persistent state SHOULD expose a testable random seam.
 ## 13. Ports, Adapters, and Platform Boundaries
 
 Keep domain rules independent when doing so removes real platform coupling.
-Adapters translate Foundry, game-system, storage, socket, or UI contracts into
-canonical GameAssist shapes.
+Adapters translate host-platform, storage, transport, UI, device, or plugin
+contracts into canonical project shapes.
 
-Useful Foundry boundaries include:
+Useful boundaries may include:
 
-- Core Foundry document access.
-- Official `dnd5e` system capabilities.
-- Settings and flags.
-- Socket authority.
+- Host-owned records or documents.
+- Database, filesystem, or device access.
+- Settings and persisted preferences.
+- Network or inter-process authority.
 - Application and dialog presentation.
-- Combat tracker access.
-- Active Effects and item workflows.
-- Calendar or world-time providers.
+- Hardware sensors, scanners, cameras, or peripherals.
+- Simulation-time, calendar, or scheduling providers.
 
-Do not wrap every Foundry object merely to satisfy a pattern. Add an adapter
-when it protects the domain from unstable/private APIs, supports more than one
-system, enables focused tests, or centralizes permission and mutation safety.
+Do not wrap every host object merely to satisfy a pattern. Add an adapter when
+it protects the domain from unstable/private APIs, supports more than one
+host, enables focused tests, or centralizes permission and mutation safety.
 
-Canonical domain code MUST NOT mutate Foundry `_source` data directly. Use
-supported Document operations through the owning adapter.
+Canonical domain code MUST NOT bypass a host's supported mutation mechanisms.
+Use the owning adapter or supported host operation.
 
 Capability detection is preferred over assumptions. Missing optional
 capabilities disable only the affected feature and produce a useful next step.
 
 ---
 
-## 14. Foundry VTT Application Profile
+## 14. Runtime Profile Contract
 
-This section is normative for GameAssist-Foundry source unless a narrower
-owner-approved profile supersedes it.
+The universal standard governs structure, identity, documentation, history,
+and safe modification. A separately approved runtime profile adds the native
+behavioral rules needed by a host, framework, platform, language, or artifact
+family.
 
-### 14.1 Runtime and language
+### 14.1 Additive relationship
 
-- Shipped runtime code is browser-compatible ESM.
-- TypeScript MAY be used as authored source and compiled to JavaScript.
-- Node.js MAY be used for build and test tooling but MUST NOT leak Node-only
-  APIs into shipped client code.
-- Imports MUST follow the selected build strategy consistently.
-- Private or undocumented Foundry and game-system internals require a DANGER
-  note, compatibility guard, and focused test or must be avoided.
+A runtime profile MUST:
 
-### 14.2 Lifecycle
+- Cite the MECHSUITS core version it extends.
+- Define its scope and how an artifact declares applicability.
+- Preserve every protected requirement in Section 1.1.
+- Identify native lifecycle, callback, mutation, authority, privacy, timing,
+  and disposal contracts.
+- Define any profile-specific banner capability blocks and sidecars.
+- Provide profile-specific examples without pretending they are universal.
+- Supply an additional compliance checklist.
 
-Files declare which Foundry lifecycle hooks they use and why. Registration
-MUST be idempotent where reload, module toggling, or repeated setup can occur.
+A profile MAY strengthen a universal requirement or select among choices the
+core deliberately leaves open. It MUST NOT rename identifiers, loosen trees or
+frames, erase history, reduce documentation duties, or turn a protected rule
+into a variance.
 
-Use the earliest lifecycle that safely provides the required capability. Do
-not access world documents before they are ready merely to centralize setup.
-Do not defer static registration until `ready` without a reason.
+### 14.2 Precedence
 
-Teardown-owned resources such as observers, timers, sockets, and temporary UI
-handlers MUST have an explicit disposal or reactivation strategy.
+When an approved profile and a generic behavioral example differ, the profile
+governs that runtime. When a profile appears to conflict with Section 1.1, the
+universal structural constitution governs and the profile must be corrected.
 
-### 14.3 Hooks
+### 14.3 Profile registry
 
-- Preserve the exact native hook signature and return contract.
-- Keep hook adapters thin; move substantial rules into testable services.
-- Validate permissions and document availability.
-- Prevent duplicate registration.
-- Avoid expensive full-world scans in high-frequency hooks.
-- Document whether the hook runs on every client, only the initiating client,
-  or under GM authority.
-- Prevent repeated clients from applying the same world mutation.
+Projects MUST list their active profiles and versions in `ARCHITECTURE.md` or
+another owner-designated architecture record. An artifact using no specialized
+profile remains subject to the universal runtime and artifact classification.
 
-### 14.4 Documents and state
-
-- Use supported Document creation, update, and deletion methods.
-- Never silently overwrite user-authored fields.
-- Namespace flags and settings under the stable module ID.
-- Preserve valid state during migrations.
-- Warn about unknown state instead of deleting it automatically.
-- Batch compatible writes where that improves consistency and performance.
-- Treat UUIDs and Document references as potentially stale.
-- Revalidate permissions and existence immediately before a write.
-
-### 14.5 World, client, and user scope
-
-Every persisted value declares its scope. GM configuration normally belongs in
-world settings. Personal display preferences normally belong in client
-settings. Actor, Item, Token, Scene, and Combat data belong only where their
-ownership semantics justify it.
-
-Do not use a world setting as a convenient dumping ground for transient state.
-
-### 14.6 Sockets and multi-client authority
-
-- Validate all received payloads.
-- Never trust a client-supplied permission claim.
-- Declare the authoritative client or GM-selection rule.
-- Use operation identifiers for retryable world mutations.
-- Reject stale or duplicate operations safely.
-- Keep GM-only data out of player responses and logs.
-- Degrade clearly when no eligible GM authority is available.
-
-### 14.7 UI and accessibility
-
-- Prefer supported Foundry application and rendering APIs.
-- Keep common actions visible and advanced controls organized behind deliberate
-  navigation.
-- Preserve keyboard access, readable labels, and understandable failure text.
-- Every failure explains what happened and the next useful action.
-- Do not expose internal diagnostics in ordinary player-facing UI.
-- Rendered content MUST escape or sanitize user-controlled text at the correct
-  boundary.
-
-### 14.8 Game-system integration
-
-- Isolate `dnd5e`-specific logic behind a capability or system adapter.
-- Prefer supported system APIs and document schemas.
-- Distinguish 2014 and 2024 rules capabilities instead of guessing from names.
-- Do not redistribute non-SRD rules text or purchased content.
-- Optional system-specific features MUST NOT prevent unrelated GameAssist
-  modules from loading.
-
-### 14.9 Module independence and interoperability
-
-- Each GameAssist module declares required core services and optional peers.
-- Optional interoperability may depend on another module, but both modules
-  remain independently useful unless the dependency is fundamental and
-  declared.
-- Disabling a shared service disables only dependent features and clearly
-  reports the consequence.
-- Prefer native Foundry behavior when it already meets the user need.
-- Never replace native tracker, sheet, effect, or document behavior without a
-  clear user benefit and an explicit setting or contract.
+The Foundry VTT rules for GameAssist-Foundry are maintained in
+`MECHSUITS Profile - Foundry VTT v1.0.0.md`. Future profiles for mobile apps,
+web services, embedded systems, scanners, or other environments follow the
+same additive model.
 
 ---
 
@@ -1085,7 +1202,7 @@ them without authorization. At minimum, code honors applicable refusals such
 as:
 
 - Never log credentials, access keys, or private tokens.
-- Never reveal GM-only information to players.
+- Never reveal restricted information to unauthorized users.
 - Never send campaign data to an external service without explicit design and
   consent.
 - Never trust client-provided authority.
@@ -1099,27 +1216,39 @@ Every new log, socket payload, external request, exported file, error detail,
 or rendered diagnostic is evaluated for permissions, privacy, retention, and
 redaction. Record the decision in the nearest owning section.
 
-### 17.3 Foundry privacy boundaries
+### 17.3 Host privacy boundaries
 
-- Hidden tokens, unrevealed actors, private rolls, secret effects, and GM notes
-  stay private.
-- Player notifications go only to authorized users.
-- Client-side presence does not imply player authorization.
-- User-controlled HTML and text are sanitized or escaped.
+- Private records, hidden state, unpublished content, and restricted notes stay
+  private.
+- Notifications go only to authorized recipients.
+- Client-side possession or visibility does not imply authorization.
+- User-controlled markup and text are sanitized or escaped.
 - Diagnostic exports state what they contain before creation.
 
 ---
 
 ## 18. Compliance Checklist
 
-An artifact is MECHSUITS v1.6.0 compliant only when all applicable items pass:
+An artifact is MECHSUITS v1.6.0 compliant only when all applicable items pass.
+Structural truth is checked first because runtime fitness cannot compensate for
+a false tree, unstable identity, missing history, or undocumented behavior.
+
+### Structural constitution
+
+- Existing identifiers are preserved literally.
+- The codename is owner-provided or collision-safely derived.
+- The project codename registry is current.
+- The file-scoped canonical tree matches exact tags, order, and nesting.
+- BEGIN and END frames are complete, paired, and physically nested.
+- Section metadata, narrative, doc comments, purposeful inline notes, and
+  Notes & Comments footers satisfy Sections 6 and 7.
+- Existing decision history remains available unless intentionally superseded.
+- Human-delivered changes use whole-section replacement where required.
+- No profile or variance weakens a protected Section 1.1 requirement.
 
 ### Identity and applicability
 
 - The runtime and artifact profiles are declared.
-- Existing identifiers are preserved literally.
-- The codename is owner-provided or collision-safely derived.
-- The project codename registry is current.
 - Every variance is narrow, justified, compensated, and reviewable.
 
 ### File truth
@@ -1140,6 +1269,10 @@ An artifact is MECHSUITS v1.6.0 compliant only when all applicable items pass:
 - `last_updated_version` follows the Meaningful Change Rule.
 - Accurate prior notes remain available.
 - Dependencies, seams, risks, lifecycle, and ownership are truthful.
+- Public/exported and behaviorally significant symbols have accurate doc
+  comments or the language-equivalent documentation form.
+- Non-obvious choices, invariants, compatibility constraints, and hazards have
+  nearby inline notes.
 
 ### Runtime fitness
 
@@ -1152,15 +1285,12 @@ An artifact is MECHSUITS v1.6.0 compliant only when all applicable items pass:
 - Time sources, timers, and authority are explicit where applicable.
 - Missing optional capabilities fail narrowly.
 
-### Foundry safety
+### Profile compliance
 
-- Hook registration is bounded and duplicate-safe.
-- Document writes use supported APIs.
-- Settings and flags use stable namespaces and migrations.
-- Multi-client mutations have an authority and stale-operation strategy.
-- GM-only data remains private.
-- UI failures provide a useful next step.
-- Game-system assumptions are capability-checked.
+- Every active profile is listed in the project architecture record.
+- The artifact passes the active profile's additional checklist.
+- Native host contracts are documented without displacing protected structure.
+- Profile-specific security, privacy, authority, and compatibility rules pass.
 
 ### Observability and security
 
@@ -1178,6 +1308,9 @@ An artifact is MECHSUITS v1.6.0 compliant only when all applicable items pass:
 - Vendored code and licenses remain intact.
 - Human-delivered code uses whole-section replacement unless a valid snippet
   exception is declared.
+- The changelog preserves published history and records affected notable work.
+- The roadmap reflects current direction and retains recent completed
+  milestones or links to their historical record.
 - The final diff contains no accidental deletions or unrelated cleanup.
 
 Partial compliance is non-compliance when a full compliance claim is made.
@@ -1192,10 +1325,12 @@ Before editing:
 
 1. Inspect repository, branch, status, surrounding code, architecture records,
    codenames, current project version, and relevant documentation.
-2. Classify runtime and artifact profiles.
-3. Read the complete banner and affected section frames.
-4. Identify native host contracts and directly affected dependencies.
-5. Decide whether any variance is genuinely required.
+2. Audit the universal structural constitution: identity, tree, frames,
+   documentation, history, and delivery boundaries.
+3. Classify runtime and artifact profiles.
+4. Read the complete banner and affected section frames.
+5. Identify native host contracts and directly affected dependencies.
+6. Decide whether any runtime variance is genuinely required.
 
 While editing:
 
@@ -1206,8 +1341,13 @@ While editing:
 4. Apply meaningful or maintenance section-version rules accurately.
 5. Keep the canonical tree synchronized when tags change.
 6. Preserve native runtime compatibility over resemblance to an example.
-7. Add comments that teach, not comments that narrate syntax.
-8. Keep public documentation free of internal implementation narration.
+7. Add or update doc comments for affected public or behaviorally significant
+   symbols.
+8. Add comments that teach purpose, decisions, risks, and invariants rather
+   than narrating syntax.
+9. Record every new section or behavioral change in the appropriate section
+   footer and project record.
+10. Keep public documentation free of internal implementation narration.
 
 After editing:
 
@@ -1268,41 +1408,51 @@ in production source.
 
 ---
 
-## Appendix B. Foundry Hook Adapter Example
+## Appendix B. Native Callback Adapter Example
 
 ```ts
 // ============================================================================
-// [GAMEASSIST_FOUNDRY_ACTOR_HOOKS:HOOKS:PRE_UPDATE] BEGIN
-// Section Title: Validate actor updates before Foundry applies them
+// [ATLAS_RECORD_EVENTS:EVENTS:BEFORE_UPDATE] BEGIN
+// Section Title: Validate records before the host applies an update
 // -----------------------------------------------------------------------------
 // mechsuit_section: {
-//   codename: "GAMEASSIST_FOUNDRY_ACTOR_HOOKS",
-//   area: "HOOKS:PRE_UPDATE",
-//   title: "Pre-update actor adapter",
-//   guarantees: ["Preserves Foundry's false-to-cancel contract."],
-//   depends_on: ["[GAMEASSIST_FOUNDRY_ACTOR_HOOKS:DOMAIN:VALIDATION]"],
-//   seams: ["Hooks.on('preUpdateActor')"],
-//   risks: ["Runs on multiple clients when authority is not checked."],
+//   codename: "ATLAS_RECORD_EVENTS",
+//   area: "EVENTS:BEFORE_UPDATE",
+//   title: "Pre-update record adapter",
+//   guarantees: ["Preserves the host's false-to-cancel contract."],
+//   depends_on: ["[ATLAS_RECORD_EVENTS:DOMAIN:VALIDATION]"],
+//   seams: ["host.onBeforeUpdate"],
+//   risks: ["May run more than once when the host retries an update."],
 //   last_updated_version: "vX.Y.Z",
 //   lifecycle: "active"
 // }
 // -----------------------------------------------------------------------------
 // Narrative
-// This thin adapter converts the native hook inputs into a canonical validation
-// request. It deliberately returns Foundry's native boolean rather than a
-// GameAssist result envelope. Structured details stay in the owned diagnostic
+// This thin adapter converts native callback inputs into a canonical validation
+// request. It deliberately returns the host's native boolean rather than a
+// project result envelope. Structured details stay in the owned diagnostic
 // service and are shown only to an authorized user.
 // -----------------------------------------------------------------------------
-function onPreUpdateActor(actor, changes, options, userId) {
-  const result = validateActorUpdate({ actor, changes, options, userId });
+/**
+ * Validates one host-owned record update without changing the callback's
+ * required return contract.
+ *
+ * @param {HostRecord} record Record the host intends to update.
+ * @param {Record<string, unknown>} changes Proposed field changes.
+ * @param {HostUpdateContext} context Permission and retry context.
+ * @returns {false|undefined} False cancels the update; undefined permits it.
+ * @sideEffects Records a bounded diagnostic for an authorized maintainer.
+ */
+function onBeforeUpdate(record, changes, context) {
+  const result = validateRecordUpdate({ record, changes, context });
   if (result.ok) return undefined;
 
   diagnostics.record(result.error);
   return false;
 }
 // --- Notes & Comments ---
-// Changed (vX.Y.Z): add native cancellation adapter and authority-safe diagnostics.
-// [GAMEASSIST_FOUNDRY_ACTOR_HOOKS:HOOKS:PRE_UPDATE] END
+// Changed (vX.Y.Z): add native cancellation adapter and restricted diagnostics.
+// [ATLAS_RECORD_EVENTS:EVENTS:BEFORE_UPDATE] END
 // ============================================================================
 ```
 
@@ -1311,37 +1461,37 @@ function onPreUpdateActor(actor, changes, options, userId) {
 ## Appendix C. Grouped Sidecar Shape
 
 ```text
-# Template Sidecar
+# Presentation Sidecar
 
 <!-- --- MECHSUITS BANNER (YAML) ---
 mechsuit:
-  codename: "GAMEASSIST_FOUNDRY_TEMPLATES"
+  codename: "ATLAS_TEMPLATES"
   project_version: "vX.Y.Z"
-  purpose: "Own the contracts for GameAssist Handlebars templates."
+  purpose: "Own the contracts for project presentation templates."
   applicability:
-    runtime: "foundry_client"
+    runtime: "browser_client"
     artifact: "template"
-    host_contracts: ["Foundry template rendering"]
+    host_contracts: ["project template rendering"]
   data_class: "Internal"
   ai_data: "none"
   refusals:
     - "Never render unescaped user-controlled markup."
   canonical_tree: |
-    [GAMEASSIST_FOUNDRY_TEMPLATES]/
-    `-- [GAMEASSIST_FOUNDRY_TEMPLATES:TEMPLATES]
-        |-- [GAMEASSIST_FOUNDRY_TEMPLATES:TEMPLATES:APPS]
-        `-- [GAMEASSIST_FOUNDRY_TEMPLATES:TEMPLATES:PARTIALS]
+    [ATLAS_TEMPLATES]/
+    `-- [ATLAS_TEMPLATES:TEMPLATES]
+        |-- [ATLAS_TEMPLATES:TEMPLATES:VIEWS]
+        `-- [ATLAS_TEMPLATES:TEMPLATES:PARTIALS]
 --- prose banner ---
 This sidecar owns template rendering, accessibility, and escaping contracts.
 It refuses to render unescaped user-controlled markup.
 -->
 
 <!-- ========================================================================
-[GAMEASSIST_FOUNDRY_TEMPLATES:TEMPLATES] BEGIN
-Section Title: GameAssist Handlebars templates
+[ATLAS_TEMPLATES:TEMPLATES] BEGIN
+Section Title: Project presentation templates
 -----------------------------------------------------------------------------
 mechsuit_section:
-  codename: "GAMEASSIST_FOUNDRY_TEMPLATES"
+  codename: "ATLAS_TEMPLATES"
   area: "TEMPLATES"
   title: "Template contracts"
   guarantees:
@@ -1355,26 +1505,26 @@ Covered artifacts:
 
 Source of truth: the listed Handlebars files
 Validation: template compilation plus rendered UI checks
-Ownership: GameAssist presentation layer
+Ownership: project presentation layer
 
-[GAMEASSIST_FOUNDRY_TEMPLATES:TEMPLATES:APPS] BEGIN
-Section Title: Application templates
+[ATLAS_TEMPLATES:TEMPLATES:VIEWS] BEGIN
+Section Title: View templates
 ...
 Notes & Comments:
 Changed (vX.Y.Z): establish the application-template contract.
-[GAMEASSIST_FOUNDRY_TEMPLATES:TEMPLATES:APPS] END
+[ATLAS_TEMPLATES:TEMPLATES:VIEWS] END
 
-[GAMEASSIST_FOUNDRY_TEMPLATES:TEMPLATES:PARTIALS] BEGIN
+[ATLAS_TEMPLATES:TEMPLATES:PARTIALS] BEGIN
 Section Title: Shared partials
 ...
 Notes & Comments:
 Changed (vX.Y.Z): establish shared-partial ownership.
-[GAMEASSIST_FOUNDRY_TEMPLATES:TEMPLATES:PARTIALS] END
+[ATLAS_TEMPLATES:TEMPLATES:PARTIALS] END
 
 Notes & Comments:
 Decision log:
 - CHOICE: one bounded sidecar over one sidecar per template.
-[GAMEASSIST_FOUNDRY_TEMPLATES:TEMPLATES] END
+[ATLAS_TEMPLATES:TEMPLATES] END
 ======================================================================== -->
 ```
 
@@ -1385,9 +1535,9 @@ Decision log:
 The project-level architecture document SHOULD contain:
 
 ```text
-Project: GameAssist-Foundry
-Package ID: gameassist
-Current package version: <from module.json>
+Project: Atlas
+Package ID: atlas
+Current package version: <from the authoritative manifest>
 
 Core services
 |-- lifecycle
@@ -1396,11 +1546,11 @@ Core services
 |-- capabilities
 `-- module registry
 
-Modules
-|-- AlmanacAssist
-|-- CombatAssist
-|-- ConditionAssist
-`-- <additional modules>
+Features
+|-- Search
+|-- Import
+|-- Reports
+`-- <additional features>
 
 Codename registry
 | Codename | Current path | Responsibility | Lifecycle | Prior path |
@@ -1415,12 +1565,12 @@ does not replace any file's canonical tree.
 
 | Artifact | Full banner | Framed sections | Sidecar | Native contract |
 |---|---:|---:|---:|---:|
-| Foundry TypeScript/JavaScript source | Yes | Yes | Optional | Required |
+| TypeScript/JavaScript source | Yes | Yes | Optional | Host/framework |
 | Node build/test source | Yes | Yes | Optional | Required |
 | Focused test source | Yes | Proportional | Optional | Test framework |
-| `module.json` / `package.json` | No | No | Yes | JSON schema |
-| Localization JSON | No | No | Grouped | Foundry localization |
-| Handlebars templates | No | Only if useful | Grouped | Template engine |
+| JSON manifest / package metadata | No | No | Yes | Applicable schema |
+| Localization data | No | No | Grouped | Localization system |
+| Presentation templates | No | Only if useful | Grouped | Template engine |
 | CSS/SCSS | Proportional comments | Only if useful | Grouped | CSS cascade |
 | Generated `dist/` | No | No | Build sidecar | Generated output |
 | Vendored third-party code | No | No | Vendor sidecar | Upstream contract |
