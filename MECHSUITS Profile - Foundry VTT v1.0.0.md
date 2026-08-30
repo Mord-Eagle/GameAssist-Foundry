@@ -1,6 +1,6 @@
 # MECHSUITS Profile - Foundry VTT v1.0.0
 
-**Additive runtime profile for MECHSUITS v1.6.0**
+**Additive specialized runtime profile for MECHSUITS v1.6.0**
 
 Copyright (c) 2026 Mord Eagle. All rights reserved.
 
@@ -24,14 +24,14 @@ adapt implementation behavior, never the protected structural model.
 
 ## 2. Applicability
 
-Use these runtime profiles where applicable:
+Use these runtime classes where applicable:
 
 - `foundry_client`: browser ESM loaded by Foundry VTT.
 - `node_tooling`: build, test, packaging, migration, or release tooling.
 - `worker`: a project-owned worker that is not part of the Foundry client.
 - `static_only`: manifests, localization, templates, styles, packs, or data.
 
-Use the core artifact profiles without renaming them. A file that is authored
+Use the core artifact classes without renaming them. A file that is authored
 in TypeScript but shipped as browser JavaScript declares `foundry_client`, not
 `node_tooling`. Build-time Node.js does not make Node APIs available at runtime.
 
