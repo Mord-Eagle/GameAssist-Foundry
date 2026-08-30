@@ -745,9 +745,11 @@ declares them inapplicable:
 
 - `CHANGELOG.md` is an append-only historical ledger. New releases add entries;
   published history is not silently rewritten. Material factual corrections
-  are added as dated correction notes. Entries describe actual changes and
-  distinguish implementation, verification, testing, experimentation, and
-  known limitations when relevant.
+  are added as dated correction notes. Every entry MUST carry an unambiguous
+  ISO `YYYY-MM-DD` date; published release headings MUST include their release
+  date, while each item under `Unreleased` carries its own change date. Entries
+  describe actual changes and distinguish implementation, verification,
+  testing, experimentation, and known limitations when relevant.
 - `ROADMAP.md` is a living planning document. It MAY be reorganized as
   priorities change, but material changes of direction retain enough rationale
   to explain what changed. It keeps at least the three most recent completed
