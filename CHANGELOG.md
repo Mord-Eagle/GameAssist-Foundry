@@ -50,6 +50,10 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 - 2026-08-29 - Strengthened requirements for section narratives, JSDoc/TSDoc or
   language equivalents, purposeful inline notes, and Notes & Comments footers.
 - 2026-08-29 - Required ISO date stamps for every changelog entry.
+- 2026-08-29 - Clarified the constitutional and procedural order of artifact
+  classification, standardized class and specialized-profile terminology,
+  aligned changelog and roadmap obligations with the compliance checklist, and
+  removed remaining campaign-specific language from the universal standard.
 
 ### Known Limitations
 
