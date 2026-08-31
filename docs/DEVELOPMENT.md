@@ -76,6 +76,13 @@ repository owner remain `Mord-Eagle`; these names serve different purposes.
 planning and incomplete foundation work, but its documentation must distinguish
 planned behavior from implemented and verified behavior.
 
+## Line Endings
+
+`.gitattributes` keeps repository text at LF across Windows development and
+Unix-based automation. Windows batch and command scripts retain CRLF. Binary
+assets are explicitly excluded from text normalization. Do not apply bulk
+line-ending rewrites to unrelated files during a focused feature change.
+
 ## Permission Boundaries
 
 | Operation | Normal authority | Additional approval |

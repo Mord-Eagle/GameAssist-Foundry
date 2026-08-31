@@ -34,6 +34,8 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
   service-by-service and module-by-module development.
 - 2026-08-31 - Added the maintainer development workflow for secure GitHub
   authorization, branch handling, Foundry deployment boundaries, and recovery.
+- 2026-08-31 - Added repository line-ending rules for stable Windows
+  development and Unix-based automation without modifying binary assets.
 - 2026-08-29 - Established the GameAssist-Foundry repository for the Foundry
   VTT edition of GameAssist.
 - 2026-08-29 - Added MECHSUITS v1.5.2 as deprecated historical guidance;
