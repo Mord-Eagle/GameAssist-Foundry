@@ -26,7 +26,7 @@ required before making compatibility claims.
 | Game system | Dungeons & Dragons Fifth Edition 5.3.3 | Owner-confirmed installation |
 | Host | Foundry desktop on Windows | Owner-confirmed installation |
 | Server configuration | Foundry defaults; no custom server configuration | Owner-confirmed |
-| Add-on modules | None installed | Owner-confirmed |
+| Add-on modules | No current v14 add-on modules enabled; two legacy v11 module folders remain on disk | Owner-confirmed and locally inventoried |
 | Custom compendia | None created or installed | Owner-confirmed |
 | GameAssist | Planned 0.1.0 foundation | Not implemented |
 
@@ -48,6 +48,22 @@ Compatibility expands only after targeted evidence exists.
 Tests involving privacy or authority require at least one GM and one non-GM
 user. Tests involving responsible-GM behavior require multiple connected
 clients when that behavior is implemented.
+
+## Observed Local Inventory
+
+Read-only inspection confirmed:
+
+- The installed `dnd5e` manifest reports v5.3.3, minimum Foundry 13.347, and
+  publisher verification for Foundry 14.
+- 5e Spellblock Importer v1.2.1 remains on disk with a declared maximum of
+  Foundry v11.
+- Universal Battlemap Importer v3.0.0 remains on disk with a declared maximum
+  of Foundry v11.
+- One legacy campaign world reports Foundry v11.315 and `dnd5e` v3.1.2.
+
+The two legacy module folders are not part of the v14 GameAssist baseline and
+must remain disabled during development and acceptance. Their removal or
+migration is separate campaign housekeeping and is not implied by this record.
 
 ## Compatibility Principles
 
@@ -147,8 +163,8 @@ installing a large automation stack before we know why it is needed.
   compatible yet.
 - Foundry 14.367 and `dnd5e` 5.3.3 are the locked development baseline, not a
   published compatibility range.
-- Installation details in this record are owner-confirmed; the live Foundry
-  data directory has not yet received an independent development inventory.
+- The live Foundry directory has received a read-only inventory; feature and
+  interoperability behavior remain untested.
 - Broader Foundry versions, later `dnd5e` versions, browsers, hosting modes, and
   non-`dnd5e` systems remain unknown until tested.
 

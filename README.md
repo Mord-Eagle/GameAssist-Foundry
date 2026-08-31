@@ -24,6 +24,8 @@ release has been published yet.
 - [Changelog](CHANGELOG.md) - append-only record of notable project changes.
 - [Component Design Template](docs/design/COMPONENT-DESIGN-TEMPLATE.md) -
   required owner-facing review record for each service and module.
+- [Development Workflow](docs/DEVELOPMENT.md) - maintainer setup, GitHub
+  authorization, branch practices, Foundry deployment boundaries, and recovery.
 - [MECHSUITS v1.6.0](MECHSUITS%20v1.6.0.md) - universal structure,
   documentation, and safe-change standard.
 - [Foundry VTT Profile](MECHSUITS%20Profile%20-%20Foundry%20VTT%20v1.0.0.md) -
