@@ -1,8 +1,13 @@
 # GameAssist-Foundry
 
-GameAssist is a modular D&D 5E-compatible VTT toolkit for combat, effects,
-conditions, NPCs, campaign time, weather, travel, and GM workflows, with
-approachable controls and independently configurable features.
+GameAssist is a modular D&D 5E-compatible Foundry VTT toolkit for combat,
+effects, conditions, NPCs, and GM workflows, with approachable controls and
+independently configurable features.
+
+The Foundry edition is a native redesign informed by the Roll20 edition rather
+than a direct port. Each service and module is reviewed from first principles
+before implementation. AlmanacAssist will be designed later as a separate,
+optional package.
 
 ## Project Status
 
@@ -11,8 +16,14 @@ release has been published yet.
 
 ## Project Documentation
 
+- [Architecture](ARCHITECTURE.md) - package boundaries, dependency direction,
+  state ownership, active standards, and open foundation decisions.
+- [Compatibility](COMPATIBILITY.md) - locked development baseline, ecosystem
+  evaluation queue, compendium strategy, and compatibility evidence.
 - [Roadmap](ROADMAP.md) - current direction, milestones, and deferred work.
 - [Changelog](CHANGELOG.md) - append-only record of notable project changes.
+- [Component Design Template](docs/design/COMPONENT-DESIGN-TEMPLATE.md) -
+  required owner-facing review record for each service and module.
 - [MECHSUITS v1.6.0](MECHSUITS%20v1.6.0.md) - universal structure,
   documentation, and safe-change standard.
 - [Foundry VTT Profile](MECHSUITS%20Profile%20-%20Foundry%20VTT%20v1.0.0.md) -
