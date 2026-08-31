@@ -51,9 +51,9 @@ unusually good in-source documentation.
 Foundry's supported APIs, Documents, Hooks, settings, applications, and native
 workflows are the implementation authority. The official `dnd5e` system is a
 versioned integration surface, not an assumed stable data layout. The initial
-implementation baseline is Foundry VTT v14 and the current compatible `dnd5e`
-5.3.x line; exact supported versions will be locked and recorded before the
-first executable milestone.
+implementation baseline is Foundry VTT Version 14 Stable, Build 367 and the
+official `dnd5e` system v5.3.3. This is a locked development baseline, not a
+public compatibility range.
 
 GameAssist should extend native Foundry behavior where it adds clear table
 value. It should not rebuild a native feature merely to preserve a Roll20
@@ -148,12 +148,12 @@ design discussion before code is written.
 
 **Status:** In Progress
 
-- Establish `ARCHITECTURE.md` with the project tree, active MECHSUITS profiles,
+- Maintain `ARCHITECTURE.md` with the project tree, active MECHSUITS profiles,
   codename registry, package boundaries, dependency direction, ownership map,
   and generated-output policy.
-- Establish a compatibility and overlap matrix covering supported Foundry and
-  `dnd5e` versions, native Foundry features, likely third-party overlap, and the
-  policy for optional integrations.
+- Maintain `COMPATIBILITY.md` as the compatibility and overlap matrix covering
+  supported Foundry and `dnd5e` versions, native Foundry features, likely
+  third-party overlap, and the policy for optional integrations.
 - Define the development, acceptance, and campaign-template worlds and record
   their locked package versions.
 - Decide the TypeScript, build, localization, template, style, test, manifest,
