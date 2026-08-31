@@ -29,6 +29,9 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Added
 
+- 2026-08-31 - Added the project architecture record, compatibility and
+  ecosystem-overlap record, and reusable component design-review template for
+  service-by-service and module-by-module development.
 - 2026-08-29 - Established the GameAssist-Foundry repository for the Foundry
   VTT edition of GameAssist.
 - 2026-08-29 - Added MECHSUITS v1.5.2 as deprecated historical guidance;
@@ -44,6 +47,10 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Documentation
 
+- 2026-08-31 - Locked the initial development baseline to Foundry VTT Version
+  14 Stable, Build 367 with the official `dnd5e` system v5.3.3; separated the
+  future AlmanacAssist package from GameAssist's implementation path; and
+  documented native-first module and compendium evaluation.
 - 2026-08-30 - Rebuilt the project roadmap around owner-approved design gates
   for every service and module, a native-first Foundry implementation order,
   explicit state and authority ownership, and a separate optional
