@@ -44,6 +44,10 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Documentation
 
+- 2026-08-30 - Rebuilt the project roadmap around owner-approved design gates
+  for every service and module, a native-first Foundry implementation order,
+  explicit state and authority ownership, and a separate optional
+  AlmanacAssist package boundary.
 - 2026-08-29 - Defined file-touch `project_version` semantics, collision-safe
   codename derivation, project architecture records, controlled runtime
   variances, and grouped sidecars.
