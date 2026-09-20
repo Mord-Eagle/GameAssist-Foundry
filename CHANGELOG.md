@@ -29,6 +29,9 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Added
 
+- 2026-09-20 - Added the GM-only Control Center: health, feature toggles,
+  capability status, inspectable failures, and a restricted Foundry settings
+  menu. Live Application V2 rendering remains unverified.
 - 2026-09-20 - Added the semantic event bus and package health snapshot:
   in-process publish/subscribe, subscriber isolation, GM-visibility filtering,
   inspectable diagnostic failures, and `healthy` / `degraded` / `unavailable`
@@ -70,6 +73,8 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Documentation
 
+- 2026-09-20 - Recorded the Control Center design; registered
+  `GAMEASSIST_CONTROL_CENTER` and `GAMEASSIST_FOUNDRY_CONTROL_CENTER`.
 - 2026-09-20 - Recorded the events and diagnostics design; registered
   `GAMEASSIST_EVENTS` and marked `GAMEASSIST_DIAGNOSTICS` active.
 - 2026-09-20 - Recorded the authority design; registered `GAMEASSIST_AUTHORITY`

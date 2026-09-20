@@ -307,6 +307,8 @@ codename across moves unless the owner approves a rename.
 | GAMEASSIST_AUTHORITY | `src/core/authority.ts` | Privileged-request authorization and GM selection | active | _None_ |
 | GAMEASSIST_FOUNDRY_USERS | `src/adapters/foundry/users.ts` | Foundry user directory adapter | active | _None_ |
 | GAMEASSIST_EVENTS | `src/core/events.ts` | In-process semantic event bus | active | _None_ |
+| GAMEASSIST_CONTROL_CENTER | `src/ui/control-center.ts` | GM-only Control Center presenter | active | _None_ |
+| GAMEASSIST_FOUNDRY_CONTROL_CENTER | `src/adapters/foundry/control-center.ts` | Application V2 settings-menu adapter | active | _None_ |
 | GAMEASSIST_DEMO_BEACON | `src/features/demo-beacon.ts` | Harmless lifecycle demonstration feature | experimental | _None_ |
 | GAMEASSIST_BUILD | `scripts/build.mjs` | esbuild client bundle | active | _None_ |
 | GAMEASSIST_VITEST_CONFIG | `vitest.config.ts` | Node unit-test configuration | active | _None_ |
@@ -361,4 +363,7 @@ Recorded in `docs/design/PHASE-0-TOOLING.md` and
   health (`healthy` / `degraded` / `unavailable`). Recorded in
   `docs/design/EVENTS-AND-DIAGNOSTICS.md`. Foundry Hooks are not the
   GameAssist event contract.
+- GM-only Control Center presenter and Application V2 settings-menu adapter.
+  Recorded in `docs/design/CONTROL-CENTER.md`. Live Foundry rendering remains
+  unverified.
 

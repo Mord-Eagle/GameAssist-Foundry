@@ -17,8 +17,8 @@ mechsuit:
     [GAMEASSIST_LOCALIZATION]/
     `-- [GAMEASSIST_LOCALIZATION:LANG]
 --- prose banner ---
-This sidecar covers lang/en.json. Foundation feature titles may still be
-developer English until Control Center consumes these keys.
+This sidecar covers lang/en.json. Control Center chrome uses these keys.
+Feature titles may still be developer English until each feature owns copy.
 -->
 
 <!-- ========================================================================

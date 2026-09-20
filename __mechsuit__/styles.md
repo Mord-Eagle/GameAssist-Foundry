@@ -4,7 +4,7 @@
 mechsuit:
   codename: "GAMEASSIST_STYLES"
   project_version: "v0.1.0"
-  purpose: "Own the GameAssist stylesheet contract until Control Center introduces real layout."
+  purpose: "Own the GameAssist stylesheet contract for Control Center layout."
   applicability:
     runtime: "static_only"
     artifact: "style"
@@ -41,8 +41,8 @@ Source of truth: `styles/gameassist.css`
 Validation: file exists; visual checks deferred to Control Center
 Ownership: UI layer
 
-The file is intentionally empty of rules. Control Center will add compact,
-accessible layout here rather than introducing SCSS in this slice.
+Control Center adds compact, scoped layout here rather than introducing SCSS.
+Rules must not restyle native Foundry chrome.
 
 Notes & Comments:
 Changed (v0.1.0): add the stylesheet placeholder required by module.json.

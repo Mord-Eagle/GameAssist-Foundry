@@ -1,8 +1,56 @@
 /*
- * GameAssist foundation stylesheet.
+ * GameAssist Control Center layout.
  * Source of truth for presentation decisions: __mechsuit__/styles.md
  *
- * Control Center will own user-facing layout. This file exists so the
- * module.json styles path is valid and later rules have a stable home.
- * Do not hide native Foundry UI from here.
+ * Do not hide native Foundry UI from here. Rules are scoped to GameAssist
+ * windows so Foundry chrome, sheets, and the Settings Config stay native.
  */
+
+.gameassist-control-center {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.25rem 0.15rem 0.5rem;
+}
+
+.gameassist-control-center h2 {
+  margin: 0 0 0.35rem;
+  font-size: 1rem;
+}
+
+.gameassist-control-center ul {
+  margin: 0;
+  padding-left: 1.1rem;
+}
+
+.gameassist-control-center li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 0.4rem 0.75rem;
+  margin: 0.2rem 0;
+}
+
+.gameassist-control-center__health[data-status="healthy"] {
+  border-left: 3px solid #2e7d32;
+  padding-left: 0.6rem;
+}
+
+.gameassist-control-center__health[data-status="degraded"] {
+  border-left: 3px solid #ef6c00;
+  padding-left: 0.6rem;
+}
+
+.gameassist-control-center__health[data-status="unavailable"] {
+  border-left: 3px solid #546e7a;
+  padding-left: 0.6rem;
+}
+
+.gameassist-control-center__denied,
+.gameassist-control-center__help {
+  margin: 0;
+}
+
+.gameassist-control-center button {
+  margin-left: auto;
+}

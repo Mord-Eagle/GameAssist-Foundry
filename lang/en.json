@@ -4,6 +4,33 @@
     "DemoBeacon": {
       "Title": "Demo Beacon",
       "Description": "Harmless lifecycle demonstration used during foundation development. It records local diagnostics only."
+    },
+    "ControlCenter": {
+      "Title": "GameAssist Control Center",
+      "MenuName": "Control Center",
+      "Open": "Open Control Center",
+      "Hint": "Inspect GameAssist health, features, and capabilities. GM only.",
+      "Denied": "GameAssist Control Center is available to GMs only.",
+      "HealthHeading": "Health",
+      "FeaturesHeading": "Features",
+      "CapabilitiesHeading": "Capabilities",
+      "FailuresHeading": "Failures",
+      "Enable": "Enable",
+      "Disable": "Disable",
+      "EmptyFailures": "No error-level diagnostics are retained.",
+      "Help": "GameAssist reports unknown capabilities instead of guessing. Disable a feature here if you do not want it to start.",
+      "Health": {
+        "healthy": "Healthy",
+        "degraded": "Degraded",
+        "unavailable": "Unavailable"
+      },
+      "Recovery": {
+        "None": "No recovery action is required.",
+        "WaitReady": "Wait for the world to finish loading, then reopen Control Center.",
+        "Reload": "Reload the world to start GameAssist again.",
+        "RetryFeature": "A feature failed to start. Disable it, or reload the world to retry.",
+        "CheckSystem": "This world is not the locked Foundry or dnd5e baseline. Unrelated features may still run."
+      }
     }
   }
 }

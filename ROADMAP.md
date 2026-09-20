@@ -203,6 +203,9 @@ Review and implement these foundations in order:
    implemented; domain events wait for their owning services.
 6. **Control Center and navigation shell** - Compact GM entry point, module
    settings, help, capability status, recovery, and consistent navigation.
+   Design recorded in `docs/design/CONTROL-CENTER.md`. The GM-only presenter
+   and a restricted Foundry settings menu are implemented; live Application V2
+   rendering remains unverified.
 
 This phase ends with a minimal installable package that can register one
 harmless demonstration feature, persist a setting, survive a restart, report

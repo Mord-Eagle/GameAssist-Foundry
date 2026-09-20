@@ -49,6 +49,8 @@ explicit deployment step.
 - [Authority](docs/design/AUTHORITY.md) - privileged-request authorization.
 - [Events and Diagnostics](docs/design/EVENTS-AND-DIAGNOSTICS.md) - in-process
   semantic events and package health.
+- [Control Center](docs/design/CONTROL-CENTER.md) - GM-only package health and
+  feature navigation.
 - [Development Workflow](docs/DEVELOPMENT.md) - maintainer setup, GitHub
   authorization, branch practices, Foundry deployment boundaries, and recovery.
 - [MECHSUITS v1.6.0](MECHSUITS%20v1.6.0.md) - universal structure,

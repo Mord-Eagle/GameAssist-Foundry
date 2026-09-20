@@ -37,12 +37,14 @@
 // game.gameAssist API and refuses to throw when imported outside Foundry.
 
 import { evaluateDnd5eCapabilities } from "./adapters/dnd5e/capabilities";
+import { bindFoundryControlCenter } from "./adapters/foundry/control-center";
 import { readFoundryEnvironment } from "./adapters/foundry/environment";
 import { createFoundrySettingsStorage } from "./adapters/foundry/settings-storage";
 import { createFoundryUserDirectory } from "./adapters/foundry/users";
 import { createFoundryHost } from "./core/host";
 import { createGameAssistRuntime } from "./core/package";
 import { createDemoBeacon } from "./features/demo-beacon";
+import { createControlCenter } from "./ui/control-center";
 
 // ============================================================================
 // [GAMEASSIST_MAIN:ENTRY] BEGIN
@@ -83,15 +85,26 @@ export function activateGameAssist(): boolean {
     return false;
   }
 
+  const directory = createFoundryUserDirectory();
   const runtime = createGameAssistRuntime({
     host,
     storage: createFoundrySettingsStorage(),
     readEnvironment: readFoundryEnvironment,
     evaluateSystem: evaluateDnd5eCapabilities,
-    userDirectory: createFoundryUserDirectory(),
+    userDirectory: directory,
     features: (diagnostics) => [createDemoBeacon(diagnostics)]
   });
   runtime.bind();
+  const controlCenter = createControlCenter({
+    runtime,
+    currentUserId: () => directory.currentUserId(),
+    diagnostics: runtime.diagnostics
+  });
+  bindFoundryControlCenter({
+    host,
+    controlCenter,
+    diagnostics: runtime.diagnostics
+  });
   return true;
 }
 

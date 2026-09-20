@@ -1,0 +1,66 @@
+<section class="gameassist-control-center">
+  {{#unless allowed}}
+    <p class="gameassist-control-center__denied">{{localize deniedKey}}</p>
+  {{else}}
+    <header class="gameassist-control-center__health" data-status="{{health.status}}">
+      <h2>{{localize "GAMEASSIST.ControlCenter.HealthHeading"}}</h2>
+      <p>
+        <span>{{localize healthStatusKey}}</span>
+        —
+        <span>{{localize recoveryKey}}</span>
+      </p>
+    </header>
+
+    <section class="gameassist-control-center__features">
+      <h2>{{localize "GAMEASSIST.ControlCenter.FeaturesHeading"}}</h2>
+      <ul>
+        {{#each features}}
+          <li>
+            <span>{{title}}</span>
+            <span data-status="{{status}}">{{status}}</span>
+            <button
+              type="button"
+              data-gameassist-feature="{{id}}"
+              data-gameassist-enabled="{{#if enabled}}true{{else}}false{{/if}}"
+            >
+              {{#if enabled}}
+                {{localize "GAMEASSIST.ControlCenter.Disable"}}
+              {{else}}
+                {{localize "GAMEASSIST.ControlCenter.Enable"}}
+              {{/if}}
+            </button>
+          </li>
+        {{/each}}
+      </ul>
+    </section>
+
+    <section class="gameassist-control-center__capabilities">
+      <h2>{{localize "GAMEASSIST.ControlCenter.CapabilitiesHeading"}}</h2>
+      <ul>
+        {{#each capabilities}}
+          <li>
+            <span>{{id}}</span>
+            <span data-status="{{status}}">{{status}}</span>
+          </li>
+        {{/each}}
+      </ul>
+    </section>
+
+    <section class="gameassist-control-center__failures">
+      <h2>{{localize "GAMEASSIST.ControlCenter.FailuresHeading"}}</h2>
+      {{#if failures.length}}
+        <ul>
+          {{#each failures}}
+            <li><code>{{code}}</code> {{message}}</li>
+          {{/each}}
+        </ul>
+      {{else}}
+        <p>{{localize "GAMEASSIST.ControlCenter.EmptyFailures"}}</p>
+      {{/if}}
+    </section>
+
+    <footer class="gameassist-control-center__help">
+      <p>{{localize "GAMEASSIST.ControlCenter.Help"}}</p>
+    </footer>
+  {{/unless}}
+</section>
