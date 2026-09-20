@@ -39,6 +39,7 @@
 import { evaluateDnd5eCapabilities } from "./adapters/dnd5e/capabilities";
 import { readFoundryEnvironment } from "./adapters/foundry/environment";
 import { createFoundrySettingsStorage } from "./adapters/foundry/settings-storage";
+import { createFoundryUserDirectory } from "./adapters/foundry/users";
 import { createFoundryHost } from "./core/host";
 import { createGameAssistRuntime } from "./core/package";
 import { createDemoBeacon } from "./features/demo-beacon";
@@ -87,6 +88,7 @@ export function activateGameAssist(): boolean {
     storage: createFoundrySettingsStorage(),
     readEnvironment: readFoundryEnvironment,
     evaluateSystem: evaluateDnd5eCapabilities,
+    userDirectory: createFoundryUserDirectory(),
     features: (diagnostics) => [createDemoBeacon(diagnostics)]
   });
   runtime.bind();

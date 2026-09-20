@@ -29,6 +29,9 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Added
 
+- 2026-09-20 - Added the authority service: responsible GM selection, operation
+  idempotency, stale-request rejection, and a GM gate on world feature
+  enablement. Module sockets remain disabled.
 - 2026-09-20 - Added the capability service and `dnd5e` adapter: Foundry
   generation and system identity detection, document-collection presence, and
   explicit unknown reports for health, rest, and roll workflows.
@@ -63,6 +66,8 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Documentation
 
+- 2026-09-20 - Recorded the authority design; registered `GAMEASSIST_AUTHORITY`
+  and `GAMEASSIST_FOUNDRY_USERS`.
 - 2026-09-20 - Recorded the capability and `dnd5e` adapter design; registered
   `GAMEASSIST_CAPABILITIES`, `GAMEASSIST_FOUNDRY_ENVIRONMENT`, and
   `GAMEASSIST_DND5E_CAPABILITIES`.

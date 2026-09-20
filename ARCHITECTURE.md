@@ -301,6 +301,8 @@ codename across moves unless the owner approves a rename.
 | GAMEASSIST_FOUNDRY_ENVIRONMENT | `src/adapters/foundry/environment.ts` | Foundry release, system, and collection reader | active | _None_ |
 | GAMEASSIST_CAPABILITIES | `src/core/capabilities.ts` | Capability snapshot composition | active | _None_ |
 | GAMEASSIST_DND5E_CAPABILITIES | `src/adapters/dnd5e/capabilities.ts` | `dnd5e` identity evaluation | active | _None_ |
+| GAMEASSIST_AUTHORITY | `src/core/authority.ts` | Privileged-request authorization and GM selection | active | _None_ |
+| GAMEASSIST_FOUNDRY_USERS | `src/adapters/foundry/users.ts` | Foundry user directory adapter | active | _None_ |
 | GAMEASSIST_DEMO_BEACON | `src/features/demo-beacon.ts` | Harmless lifecycle demonstration feature | experimental | _None_ |
 | GAMEASSIST_BUILD | `scripts/build.mjs` | esbuild client bundle | active | _None_ |
 | GAMEASSIST_VITEST_CONFIG | `vitest.config.ts` | Node unit-test configuration | active | _None_ |
@@ -328,7 +330,7 @@ into permanent doctrine.
 - ESLint and Prettier configuration.
 - Foundry test harness and live smoke checks.
 - Repeatable, owner-confirmed copy or symlink into `{userData}/Data/modules/gameassist/`.
-- Authority and socket protocol.
+- Socket payload schema (authority exists; `module.json` socket stays false).
 - Minimum supported Foundry build after compatibility evidence exists.
 - Whether any initial compendium pack adds enough value to justify ownership.
 - A verified Foundry v14 TypeScript type package, if one is later owner-approved.
@@ -348,4 +350,7 @@ Recorded in `docs/design/PHASE-0-TOOLING.md` and
   `incompatible` reports; `dnd5e` health, rest, and roll workflows stay
   unknown until their owning services define probes. Recorded in
   `docs/design/CAPABILITY-AND-DND5E-ADAPTER.md`.
+- Authority service for responsible GM selection, request idempotency, and
+  stale-request rejection. Recorded in `docs/design/AUTHORITY.md`. Sockets
+  remain disabled until a feature needs them.
 

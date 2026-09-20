@@ -191,7 +191,9 @@ Review and implement these foundations in order:
 4. **Authority and privileged-action service** - Permission checks, responsible
    GM selection, request correlation, deduplication, stale-request handling,
    privacy, and failure reporting. Foundry sockets carry requests; they do not
-   replace GameAssist authority rules.
+   replace GameAssist authority rules. Design recorded in
+   `docs/design/AUTHORITY.md`. Local authorize and world-setting GM gates are
+   implemented; `module.json` socket stays false until a consumer exists.
 5. **Semantic event and diagnostics services** - Stable GameAssist event
    meanings, structured local diagnostics, health reporting, and inspectable
    failure evidence. Foundry Hooks remain synchronous notification points;

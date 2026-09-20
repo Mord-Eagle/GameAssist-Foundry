@@ -86,7 +86,15 @@ export const POLICY = {
   foundryMinimumGeneration: 14,
   foundryBaselineBuild: 367,
   dnd5eSystemId: "dnd5e",
-  dnd5eBaselineVersion: "5.3.3"
+  dnd5eBaselineVersion: "5.3.3",
+  /** Privileged requests older than this are rejected. */
+  staleRequestMs: 30_000,
+  /** Allow small clock skew on createdAt. */
+  requestFutureSkewMs: 5_000,
+  /** Maximum retained authorization decisions. Oldest drop first. */
+  authorityLedgerCapacity: 100,
+  operationIdPattern: /^[a-zA-Z0-9._:-]{1,128}$/,
+  operationTypePattern: /^[a-z][a-z0-9.-]{1,62}$/
 } as const;
 // --- Notes & Comments ---
 // Changed (v0.1.0): establish package identity and the first core limits.

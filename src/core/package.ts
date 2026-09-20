@@ -45,6 +45,12 @@ import {
   type DiagnosticBuffer,
   type DiagnosticSink
 } from "./diagnostics";
+import {
+  createAuthorityService,
+  createMemoryUserDirectory,
+  type AuthorityService,
+  type UserDirectory
+} from "./authority";
 import type { PackageHost } from "./host";
 import {
   createLifecycleCoordinator,
@@ -56,7 +62,7 @@ import {
   type FeatureRegistry,
   type FeatureSnapshot
 } from "./registry";
-import { ok, type Result } from "./result";
+import { err, ok, type Result } from "./result";
 import {
   createMemorySettingsStorage,
   createSettingsService,
@@ -97,6 +103,7 @@ export interface GameAssistRuntime {
   readonly coordinator: LifecycleCoordinator;
   readonly settings: SettingsService;
   readonly capabilities: CapabilityService;
+  readonly authority: AuthorityService;
   bind(): Result<void>;
   unbind(): Result<void>;
   setFeatureEnabled(id: string, enabled: boolean): Result<FeatureSnapshot>;
@@ -123,6 +130,8 @@ function unknownSystemEvaluator(): ReturnType<SystemCapabilityEvaluator> {
  * supplies `readFoundryEnvironment`; tests inject a fake.
  * @param options.evaluateSystem - Optional system evaluator. The Foundry
  * entrypoint supplies `evaluateDnd5eCapabilities`.
+ * @param options.userDirectory - Optional live user list. Foundry supplies
+ * the game.users adapter; tests inject a memory directory.
  * @param options.features - Feature definitions, or a factory that receives
  * the runtime diagnostic sink so features share the same local history.
  */
@@ -131,6 +140,7 @@ export function createGameAssistRuntime(options: {
   storage?: SettingsStorage;
   readEnvironment?: () => RuntimeEnvironment | undefined;
   evaluateSystem?: SystemCapabilityEvaluator;
+  userDirectory?: UserDirectory;
   features?:
     | readonly FeatureDefinition[]
     | ((diagnostics: DiagnosticSink) => readonly FeatureDefinition[]);
@@ -152,6 +162,8 @@ export function createGameAssistRuntime(options: {
     evaluateSystem: options.evaluateSystem ?? unknownSystemEvaluator,
     diagnostics: sink
   });
+  const directory = options.userDirectory ?? createMemoryUserDirectory({});
+  const authority = createAuthorityService({ directory, diagnostics: sink });
   const coordinator = createLifecycleCoordinator({
     registry,
     diagnostics: sink,
@@ -184,9 +196,15 @@ export function createGameAssistRuntime(options: {
     coordinator,
     settings,
     capabilities,
+    authority,
     setFeatureEnabled(id, enabled) {
       const exists = registry.snapshot(id);
       if (!exists.ok) return exists;
+      const currentUserId = directory.currentUserId();
+      if (currentUserId) {
+        const allowed = authority.assertWorldMutation(currentUserId);
+        if (!allowed.ok) return err(allowed.error, allowed.data);
+      }
       const persisted = settings.persistFeatureEnablement(id, enabled);
       if (!persisted.ok) return persisted;
       return coordinator.setFeatureEnabled(id, enabled);
