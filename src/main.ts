@@ -36,6 +36,8 @@
 // Hooks, composes the runtime, and binds init/ready. It refuses a public
 // game.gameAssist API and refuses to throw when imported outside Foundry.
 
+import { evaluateDnd5eCapabilities } from "./adapters/dnd5e/capabilities";
+import { readFoundryEnvironment } from "./adapters/foundry/environment";
 import { createFoundrySettingsStorage } from "./adapters/foundry/settings-storage";
 import { createFoundryHost } from "./core/host";
 import { createGameAssistRuntime } from "./core/package";
@@ -82,6 +84,9 @@ export function activateGameAssist(): boolean {
 
   const runtime = createGameAssistRuntime({
     host,
+    storage: createFoundrySettingsStorage(),
+    readEnvironment: readFoundryEnvironment,
+    evaluateSystem: evaluateDnd5eCapabilities,
     features: (diagnostics) => [createDemoBeacon(diagnostics)]
   });
   runtime.bind();

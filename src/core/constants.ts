@@ -81,7 +81,12 @@ export const POLICY = {
    * GameAssist world-settings schema. Independent of package release.
    * Increment only with a documented migration.
    */
-  settingsSchemaVersion: 1
+  settingsSchemaVersion: 1,
+  /** Locked development baseline. Not a published support range. */
+  foundryMinimumGeneration: 14,
+  foundryBaselineBuild: 367,
+  dnd5eSystemId: "dnd5e",
+  dnd5eBaselineVersion: "5.3.3"
 } as const;
 // --- Notes & Comments ---
 // Changed (v0.1.0): establish package identity and the first core limits.

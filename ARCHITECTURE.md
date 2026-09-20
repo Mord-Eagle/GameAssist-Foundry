@@ -298,6 +298,9 @@ codename across moves unless the owner approves a rename.
 | GAMEASSIST_PACKAGE | `src/core/package.ts` | Runtime composition and host binding | active | _None_ |
 | GAMEASSIST_SETTINGS | `src/core/settings.ts` | Settings registration, migration, and enablement persistence | active | _None_ |
 | GAMEASSIST_FOUNDRY_SETTINGS | `src/adapters/foundry/settings-storage.ts` | Foundry `game.settings` adapter | active | _None_ |
+| GAMEASSIST_FOUNDRY_ENVIRONMENT | `src/adapters/foundry/environment.ts` | Foundry release, system, and collection reader | active | _None_ |
+| GAMEASSIST_CAPABILITIES | `src/core/capabilities.ts` | Capability snapshot composition | active | _None_ |
+| GAMEASSIST_DND5E_CAPABILITIES | `src/adapters/dnd5e/capabilities.ts` | `dnd5e` identity evaluation | active | _None_ |
 | GAMEASSIST_DEMO_BEACON | `src/features/demo-beacon.ts` | Harmless lifecycle demonstration feature | experimental | _None_ |
 | GAMEASSIST_BUILD | `scripts/build.mjs` | esbuild client bundle | active | _None_ |
 | GAMEASSIST_VITEST_CONFIG | `vitest.config.ts` | Node unit-test configuration | active | _None_ |
@@ -341,4 +344,8 @@ Recorded in `docs/design/PHASE-0-TOOLING.md` and
 - No public `game.gameAssist` API in this slice.
 - Lifecycle coordinator plus feature registry, with in-memory enablement only.
 - Settings schema version 1, world-scoped feature enablement, and preserve-unknown-keys migration, recorded in `docs/design/SETTINGS-AND-MIGRATION.md`.
+- Capability snapshot with `supported` / `unavailable` / `unknown` /
+  `incompatible` reports; `dnd5e` health, rest, and roll workflows stay
+  unknown until their owning services define probes. Recorded in
+  `docs/design/CAPABILITY-AND-DND5E-ADAPTER.md`.
 

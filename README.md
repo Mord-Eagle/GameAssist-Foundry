@@ -44,6 +44,8 @@ explicit deployment step.
   Phase 1 core-service design record.
 - [Settings and Migration](docs/design/SETTINGS-AND-MIGRATION.md) - schema 1
   persistence for feature enablement.
+- [Capability and dnd5e Adapter](docs/design/CAPABILITY-AND-DND5E-ADAPTER.md) -
+  version-aware host/system detection.
 - [Development Workflow](docs/DEVELOPMENT.md) - maintainer setup, GitHub
   authorization, branch practices, Foundry deployment boundaries, and recovery.
 - [MECHSUITS v1.6.0](MECHSUITS%20v1.6.0.md) - universal structure,

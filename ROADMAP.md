@@ -183,7 +183,11 @@ Review and implement these foundations in order:
    later work.
 3. **Capability and `dnd5e` adapter layer** - Version-aware access to supported
    actor, item, roll, rest, health, effect, and combat behavior without
-   scattering system paths through feature modules.
+   scattering system paths through feature modules. Design recorded in
+   `docs/design/CAPABILITY-AND-DND5E-ADAPTER.md`. Detection of Foundry
+   generation, `dnd5e` identity, and document collections is implemented.
+   Health, rest, and roll *workflows* remain unknown until their owning
+   services define probes.
 4. **Authority and privileged-action service** - Permission checks, responsible
    GM selection, request correlation, deduplication, stale-request handling,
    privacy, and failure reporting. Foundry sockets carry requests; they do not

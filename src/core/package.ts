@@ -34,6 +34,13 @@
 // entrypoint. It refuses to freeze a public Foundry API object.
 
 import {
+  CAPABILITY_IDS,
+  createCapabilityService,
+  type CapabilityService,
+  type RuntimeEnvironment,
+  type SystemCapabilityEvaluator
+} from "./capabilities";
+import {
   createDiagnosticBuffer,
   type DiagnosticBuffer,
   type DiagnosticSink
@@ -89,9 +96,20 @@ export interface GameAssistRuntime {
   readonly registry: FeatureRegistry;
   readonly coordinator: LifecycleCoordinator;
   readonly settings: SettingsService;
+  readonly capabilities: CapabilityService;
   bind(): Result<void>;
   unbind(): Result<void>;
   setFeatureEnabled(id: string, enabled: boolean): Result<FeatureSnapshot>;
+}
+
+function unknownSystemEvaluator(): ReturnType<SystemCapabilityEvaluator> {
+  return [
+    {
+      id: CAPABILITY_IDS.system,
+      status: "unknown",
+      detail: "No system evaluator was provided."
+    }
+  ];
 }
 
 /**
@@ -101,12 +119,18 @@ export interface GameAssistRuntime {
  * @param options.storage - Optional settings storage. Tests share one memory
  * store across runtimes to prove restart preservation. Foundry supplies the
  * game.settings adapter.
+ * @param options.readEnvironment - Optional host probe. The Foundry entrypoint
+ * supplies `readFoundryEnvironment`; tests inject a fake.
+ * @param options.evaluateSystem - Optional system evaluator. The Foundry
+ * entrypoint supplies `evaluateDnd5eCapabilities`.
  * @param options.features - Feature definitions, or a factory that receives
  * the runtime diagnostic sink so features share the same local history.
  */
 export function createGameAssistRuntime(options: {
   host: PackageHost;
   storage?: SettingsStorage;
+  readEnvironment?: () => RuntimeEnvironment | undefined;
+  evaluateSystem?: SystemCapabilityEvaluator;
   features?:
     | readonly FeatureDefinition[]
     | ((diagnostics: DiagnosticSink) => readonly FeatureDefinition[]);
@@ -123,10 +147,16 @@ export function createGameAssistRuntime(options: {
   const registry = createFeatureRegistry(sink);
   const storage = options.storage ?? createMemorySettingsStorage();
   const settings = createSettingsService({ storage, diagnostics: sink });
+  const capabilities = createCapabilityService({
+    readEnvironment: options.readEnvironment ?? (() => undefined),
+    evaluateSystem: options.evaluateSystem ?? unknownSystemEvaluator,
+    diagnostics: sink
+  });
   const coordinator = createLifecycleCoordinator({
     registry,
     diagnostics: sink,
-    settings
+    settings,
+    capabilities
   });
   const unsubscribers: Array<() => void> = [];
   let bound = false;
@@ -153,6 +183,7 @@ export function createGameAssistRuntime(options: {
     registry,
     coordinator,
     settings,
+    capabilities,
     setFeatureEnabled(id, enabled) {
       const exists = registry.snapshot(id);
       if (!exists.ok) return exists;

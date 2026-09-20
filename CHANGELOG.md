@@ -29,6 +29,9 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Added
 
+- 2026-09-20 - Added the capability service and `dnd5e` adapter: Foundry
+  generation and system identity detection, document-collection presence, and
+  explicit unknown reports for health, rest, and roll workflows.
 - 2026-09-20 - Added the settings and migration service: schema version 1,
   world-scoped feature enablement, Foundry `game.settings` adapter, and
   memory storage for contract tests. Unknown keys are preserved; malformed
@@ -60,6 +63,9 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Documentation
 
+- 2026-09-20 - Recorded the capability and `dnd5e` adapter design; registered
+  `GAMEASSIST_CAPABILITIES`, `GAMEASSIST_FOUNDRY_ENVIRONMENT`, and
+  `GAMEASSIST_DND5E_CAPABILITIES`.
 - 2026-09-20 - Recorded the settings and migration design; registered
   `GAMEASSIST_SETTINGS` and `GAMEASSIST_FOUNDRY_SETTINGS`.
 - 2026-09-20 - Recorded TypeScript, esbuild, Vitest, manifest, localization,

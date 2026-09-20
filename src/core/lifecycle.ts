@@ -37,6 +37,7 @@
 // This coordinator is the only writer of package phase. It refuses to start
 // features before init and refuses to treat Foundry Hooks as awaitable.
 
+import type { CapabilityService, CapabilitySnapshot } from "./capabilities";
 import type { DiagnosticSink } from "./diagnostics";
 import type { FeatureRegistry, FeatureSnapshot } from "./registry";
 import { err, ok, type Result } from "./result";
@@ -103,6 +104,7 @@ export type LifecyclePhase = "idle" | "init" | "ready" | "stopped";
 export interface LifecycleSnapshot {
   phase: LifecyclePhase;
   features: FeatureSnapshot[];
+  capabilities?: CapabilitySnapshot;
 }
 
 /**
@@ -123,13 +125,15 @@ export function createLifecycleCoordinator(options: {
   registry: FeatureRegistry;
   diagnostics?: DiagnosticSink;
   settings?: SettingsService;
+  capabilities?: CapabilityService;
 }): LifecycleCoordinator {
-  const { registry, diagnostics, settings } = options;
+  const { registry, diagnostics, settings, capabilities } = options;
   let phase: LifecyclePhase = "idle";
 
   const snapshot = (): LifecycleSnapshot => ({
     phase,
-    features: registry.snapshots()
+    features: registry.snapshots(),
+    ...(capabilities ? { capabilities: capabilities.snapshot() } : {})
   });
 
   const note = (code: string, message: string): void => {
@@ -161,6 +165,7 @@ export function createLifecycleCoordinator(options: {
       registry.beginGeneration();
       if (settings) settings.applyFeatureEnablement(registry);
       registry.invokeRegister();
+      capabilities?.refresh();
       phase = "init";
       note("lifecycle.init", "GameAssist completed init registration.");
       return ok(snapshot());
@@ -177,6 +182,7 @@ export function createLifecycleCoordinator(options: {
         });
       }
       registry.startEnabled();
+      capabilities?.refresh();
       phase = "ready";
       note("lifecycle.ready", "GameAssist reached ready.");
       return ok(snapshot());
