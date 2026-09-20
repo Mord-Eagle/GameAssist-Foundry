@@ -1,0 +1,8 @@
+/*
+ * GameAssist foundation stylesheet.
+ * Source of truth for presentation decisions: __mechsuit__/styles.md
+ *
+ * Control Center will own user-facing layout. This file exists so the
+ * module.json styles path is valid and later rules have a stable home.
+ * Do not hide native Foundry UI from here.
+ */

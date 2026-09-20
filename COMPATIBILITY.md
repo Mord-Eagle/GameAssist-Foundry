@@ -2,7 +2,7 @@
 
 **Status:** Foundation baseline
 
-**Last updated:** 2026-08-31
+**Last updated:** 2026-09-20
 
 This document records the environment GameAssist is designed and tested
 against, likely overlap with Foundry and third-party packages, and the evidence
@@ -28,7 +28,7 @@ required before making compatibility claims.
 | Server configuration | Foundry defaults; no custom server configuration | Owner-confirmed |
 | Add-on modules | No current v14 add-on modules enabled; two legacy v11 module folders remain on disk | Owner-confirmed and locally inventoried |
 | Custom compendia | None created or installed | Owner-confirmed |
-| GameAssist | Planned 0.1.0 foundation | Not implemented |
+| GameAssist | Planned 0.1.0 foundation | Local package shell implemented; not live-Foundry verified |
 
 The local Foundry user-data path is intentionally not published in this
 repository. Development guidance will use Foundry's `{userData}` placeholder.
@@ -157,7 +157,8 @@ installing a large automation stack before we know why it is needed.
 
 ## Current Claims and Limitations
 
-- No GameAssist source package is installable yet.
+- A local GameAssist package shell exists (`module.json`, `dist/` after build)
+  but has not been installed or verified in live Foundry.
 - No GameAssist feature has passed live Foundry acceptance testing.
 - No third-party package is required, recommended by the manifest, or declared
   compatible yet.

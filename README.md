@@ -12,7 +12,21 @@ optional package.
 ## Project Status
 
 GameAssist-Foundry is in foundation development. No installable Foundry module
-release has been published yet.
+release has been published yet. The repository now contains a local package
+shell that can register a harmless demonstration feature, but that shell has
+not been verified inside live Foundry.
+
+## Local Checks
+
+```bash
+npm install
+npm run check
+```
+
+`npm run check` runs typecheck, unit tests, and the client bundle. Passing
+local checks is not proof of live Foundry behavior. Foundry loads `module.json`
+and `dist/gameassist.mjs` from `{userData}/Data/modules/gameassist/` after an
+explicit deployment step.
 
 ## Project Documentation
 
@@ -24,6 +38,10 @@ release has been published yet.
 - [Changelog](CHANGELOG.md) - append-only record of notable project changes.
 - [Component Design Template](docs/design/COMPONENT-DESIGN-TEMPLATE.md) -
   required owner-facing review record for each service and module.
+- [Phase 0 Tooling](docs/design/PHASE-0-TOOLING.md) - TypeScript, build, test,
+  manifest, and validation strategy.
+- [Lifecycle and Registry](docs/design/LIFECYCLE-AND-REGISTRY.md) - first
+  Phase 1 core-service design record.
 - [Development Workflow](docs/DEVELOPMENT.md) - maintainer setup, GitHub
   authorization, branch practices, Foundry deployment boundaries, and recovery.
 - [MECHSUITS v1.6.0](MECHSUITS%20v1.6.0.md) - universal structure,

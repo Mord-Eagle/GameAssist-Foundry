@@ -1,0 +1,23 @@
+{
+  "name": "gameassist-foundry",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Development package metadata for GameAssist-Foundry. Foundry reads module.json, not this file.",
+  "license": "MIT",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check": "npm run typecheck && npm test && npm run build"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.9",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  }
+}

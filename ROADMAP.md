@@ -155,21 +155,28 @@ design discussion before code is written.
   supported Foundry and `dnd5e` versions, native Foundry features, likely
   third-party overlap, and the policy for optional integrations.
 - Define the development, acceptance, and campaign-template worlds and record
-  their locked package versions.
+  their locked package versions. Worlds remain uncreated until the package can
+  be enabled in a live Foundry install.
 - Decide the TypeScript, build, localization, template, style, test, manifest,
-  packaging, and release-validation strategy.
+  packaging, and release-validation strategy. Recorded 2026-09-20 in
+  `docs/design/PHASE-0-TOOLING.md` and implemented as TypeScript, esbuild,
+  Vitest, `module.json`, and `npm run check`.
 - Separate public package contracts from internal implementation surfaces; do
-  not freeze a broad public API before real consumers establish its value.
+  not freeze a broad public API before real consumers establish its value. The
+  first shell keeps contracts internal and does not assign `game.gameAssist`.
 
 ### Phase 1: Foundational Services and Package Shell
 
-**Status:** Planned
+**Status:** In Progress
 
 Review and implement these foundations in order:
 
 1. **Package lifecycle and feature registry** - Initialization order, module
    registration, enable/disable behavior, readiness, teardown, and restart
-   safety.
+   safety. Design recorded in `docs/design/LIFECYCLE-AND-REGISTRY.md`. The
+   first testable shell, including the `demo-beacon` feature, is implemented
+   locally; live Foundry enable/disable remains unverified, and enablement is
+   not yet persisted.
 2. **Settings and migration service** - World and client settings, defaults,
    validation, schema versions, preservation, repair, and rollback boundaries.
 3. **Capability and `dnd5e` adapter layer** - Version-aware access to supported

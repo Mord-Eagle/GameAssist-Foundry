@@ -2,7 +2,7 @@
 
 **Audience:** Maintainers and development assistants
 
-**Last updated:** 2026-08-31
+**Last updated:** 2026-09-20
 
 This document records the local development, authorization, branch, and
 Foundry-deployment practices for GameAssist-Foundry. It deliberately excludes
@@ -116,10 +116,20 @@ The GameAssist development deployment target will eventually be:
 {userData}/Data/modules/gameassist/
 ```
 
-Do not hand-edit generated output in that directory. The Phase 1 build design
-will choose a repeatable copy, link, or build-output deployment method. Until
-then, the repository is the source of truth and no live module directory should
-be created merely to appear further along.
+Do not hand-edit generated output in that directory. After `npm run build`, the
+first deployment method is to symlink or copy this repository root to that
+path so Foundry sees `module.json`, `dist/`, `lang/`, and `styles/`. A helper
+script that writes outside the repository still requires an owner-confirmed
+`{userData}` path. Until that confirmation exists, the repository is the source
+of truth and no live module directory should be created merely to appear
+further along.
+
+Required local checks:
+
+```bash
+npm install
+npm run check
+```
 
 ## Development Worlds
 

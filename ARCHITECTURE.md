@@ -4,7 +4,7 @@
 
 **Planned package version:** 0.1.0
 
-**Last updated:** 2026-08-31
+**Last updated:** 2026-09-20
 
 This document records the project-level architecture of GameAssist-Foundry.
 It governs package boundaries, dependency direction, state ownership, active
@@ -195,9 +195,9 @@ GameAssist-Foundry/
 `-- dist/                         generated; not hand-edited
 ```
 
-The final build and test tools remain a Phase 1 design decision. Source files
-will be organized by responsibility rather than forced into empty ceremonial
-directories.
+The first implemented slice uses TypeScript, esbuild, and Vitest as recorded in
+`docs/design/PHASE-0-TOOLING.md`. Source files are organized by responsibility
+rather than forced into empty ceremonial directories.
 
 ## Lifecycle Boundary
 
@@ -283,13 +283,22 @@ package unless its design is intentionally general.
 
 ## Codename Registry
 
-No production source files exist yet, so no source codename is assigned merely
-to populate this table. Add each source file when it is created and retain its
-owner-authoritative codename across moves unless the owner approves a rename.
+Add each source file when it is created and retain its owner-authoritative
+codename across moves unless the owner approves a rename.
 
 | Codename | Path | Responsibility | Lifecycle | Prior path |
 | --- | --- | --- | --- | --- |
-| _None assigned_ | _No source file yet_ | _Foundation planning_ | _N/A_ | _N/A_ |
+| GAMEASSIST_MAIN | `src/main.ts` | Foundry package entrypoint | active | _None_ |
+| GAMEASSIST_CONSTANTS | `src/core/constants.ts` | Package id and core policy knobs | active | _None_ |
+| GAMEASSIST_RESULT | `src/core/result.ts` | Internal ok/err envelope | active | _None_ |
+| GAMEASSIST_DIAGNOSTICS | `src/core/diagnostics.ts` | Bounded local diagnostic buffer | experimental | _None_ |
+| GAMEASSIST_HOST | `src/core/host.ts` | Foundry and memory host adapters | active | _None_ |
+| GAMEASSIST_REGISTRY | `src/core/registry.ts` | Feature registration and isolated start/stop | active | _None_ |
+| GAMEASSIST_LIFECYCLE | `src/core/lifecycle.ts` | Init/ready/teardown phase machine | active | _None_ |
+| GAMEASSIST_PACKAGE | `src/core/package.ts` | Runtime composition and host binding | active | _None_ |
+| GAMEASSIST_DEMO_BEACON | `src/features/demo-beacon.ts` | Harmless lifecycle demonstration feature | experimental | _None_ |
+| GAMEASSIST_BUILD | `scripts/build.mjs` | esbuild client bundle | active | _None_ |
+| GAMEASSIST_VITEST_CONFIG | `vitest.config.ts` | Node unit-test configuration | active | _None_ |
 
 Fallback codenames will be deterministically derived from project plus filename
 and checked for collisions as required by MECHSUITS v1.6.0.
@@ -311,15 +320,23 @@ into permanent doctrine.
 
 ## Foundation Decisions Still Open
 
-- Build and bundling tool.
-- Automated test runner and Foundry test harness strategy.
-- Local development deployment method into the Foundry module directory.
-- Exact lifecycle and feature-registration contract.
+- ESLint and Prettier configuration.
+- Foundry test harness and live smoke checks.
+- Repeatable, owner-confirmed copy or symlink into `{userData}/Data/modules/gameassist/`.
 - Settings schema and migration mechanics.
 - Authority and socket protocol.
 - Minimum supported Foundry build after compatibility evidence exists.
 - Whether any initial compendium pack adds enough value to justify ownership.
+- A verified Foundry v14 TypeScript type package, if one is later owner-approved.
 
-These are the subjects of Phase 0 and Phase 1. They are not silently decided by
-the first implementation patch.
+## Foundation Decisions Recorded
+
+Recorded in `docs/design/PHASE-0-TOOLING.md` and
+`docs/design/LIFECYCLE-AND-REGISTRY.md`; live Foundry verification remains open:
+
+- TypeScript 5.x authored source bundled by esbuild to `dist/gameassist.mjs`.
+- Vitest Node tests for core contracts; not claimed as live Foundry evidence.
+- Foundry package id `gameassist`, npm name `gameassist-foundry`.
+- No public `game.gameAssist` API in this slice.
+- Lifecycle coordinator plus feature registry, with in-memory enablement only.
 

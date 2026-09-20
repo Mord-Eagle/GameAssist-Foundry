@@ -1,0 +1,44 @@
+{
+  "id": "gameassist",
+  "title": "GameAssist",
+  "description": "A modular D&D 5E toolkit for combat, effects, conditions, NPCs, and GM workflows. The Foundry edition is in foundation development; this package currently registers a harmless lifecycle demonstration only.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "14",
+    "verified": "14.367"
+  },
+  "authors": [
+    {
+      "name": "Mord Eagle",
+      "url": "https://github.com/Mord-Eagle"
+    }
+  ],
+  "esmodules": ["dist/gameassist.mjs"],
+  "styles": ["styles/gameassist.css"],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "5.3.3",
+          "verified": "5.3.3"
+        }
+      }
+    ]
+  },
+  "socket": false,
+  "library": false,
+  "url": "https://github.com/Mord-Eagle/GameAssist-Foundry",
+  "bugs": "https://github.com/Mord-Eagle/GameAssist-Foundry/issues",
+  "changelog": "CHANGELOG.md",
+  "readme": "README.md",
+  "license": "LICENSE"
+}

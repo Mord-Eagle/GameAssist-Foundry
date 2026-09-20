@@ -1,0 +1,9 @@
+{
+  "GAMEASSIST": {
+    "Title": "GameAssist",
+    "DemoBeacon": {
+      "Title": "Demo Beacon",
+      "Description": "Harmless lifecycle demonstration used during foundation development. It records local diagnostics only."
+    }
+  }
+}
