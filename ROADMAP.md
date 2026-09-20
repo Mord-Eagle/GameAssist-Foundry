@@ -174,11 +174,13 @@ Review and implement these foundations in order:
 1. **Package lifecycle and feature registry** - Initialization order, module
    registration, enable/disable behavior, readiness, teardown, and restart
    safety. Design recorded in `docs/design/LIFECYCLE-AND-REGISTRY.md`. The
-   first testable shell, including the `demo-beacon` feature, is implemented
-   locally; live Foundry enable/disable remains unverified, and enablement is
-   not yet persisted.
+   first testable shell, including the `demo-beacon` feature, is implemented.
 2. **Settings and migration service** - World and client settings, defaults,
    validation, schema versions, preservation, repair, and rollback boundaries.
+   Design recorded in `docs/design/SETTINGS-AND-MIGRATION.md`. Schema 1
+   persists feature enablement; unknown keys are preserved; malformed values
+   are not overwritten. Client-scoped settings and Control Center UI remain
+   later work.
 3. **Capability and `dnd5e` adapter layer** - Version-aware access to supported
    actor, item, roll, rest, health, effect, and combat behavior without
    scattering system paths through feature modules.

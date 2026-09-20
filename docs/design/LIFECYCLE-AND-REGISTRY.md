@@ -237,7 +237,8 @@ bounded, code-owned messages.
 
 ## Deferred Decisions
 
-- Settings-backed enable/disable and schema migration.
+- Client-scoped display settings (world enablement is owned by the settings
+  service).
 - `setup` Hook usage.
 - Control Center health view.
 - Capability snapshot for Foundry/`dnd5e` versions.

@@ -46,9 +46,16 @@ import {
 import {
   createFeatureRegistry,
   type FeatureDefinition,
-  type FeatureRegistry
+  type FeatureRegistry,
+  type FeatureSnapshot
 } from "./registry";
 import { ok, type Result } from "./result";
+import {
+  createMemorySettingsStorage,
+  createSettingsService,
+  type SettingsService,
+  type SettingsStorage
+} from "./settings";
 
 // ============================================================================
 // [GAMEASSIST_PACKAGE:RUNTIME] BEGIN
@@ -81,19 +88,25 @@ export interface GameAssistRuntime {
   readonly diagnostics: DiagnosticBuffer;
   readonly registry: FeatureRegistry;
   readonly coordinator: LifecycleCoordinator;
+  readonly settings: SettingsService;
   bind(): Result<void>;
   unbind(): Result<void>;
+  setFeatureEnabled(id: string, enabled: boolean): Result<FeatureSnapshot>;
 }
 
 /**
  * Creates a GameAssist runtime around a host and feature list.
  *
  * @param options.host - Foundry or in-memory host.
+ * @param options.storage - Optional settings storage. Tests share one memory
+ * store across runtimes to prove restart preservation. Foundry supplies the
+ * game.settings adapter.
  * @param options.features - Feature definitions, or a factory that receives
  * the runtime diagnostic sink so features share the same local history.
  */
 export function createGameAssistRuntime(options: {
   host: PackageHost;
+  storage?: SettingsStorage;
   features?:
     | readonly FeatureDefinition[]
     | ((diagnostics: DiagnosticSink) => readonly FeatureDefinition[]);
@@ -108,7 +121,13 @@ export function createGameAssistRuntime(options: {
     }
   };
   const registry = createFeatureRegistry(sink);
-  const coordinator = createLifecycleCoordinator({ registry, diagnostics: sink });
+  const storage = options.storage ?? createMemorySettingsStorage();
+  const settings = createSettingsService({ storage, diagnostics: sink });
+  const coordinator = createLifecycleCoordinator({
+    registry,
+    diagnostics: sink,
+    settings
+  });
   const unsubscribers: Array<() => void> = [];
   let bound = false;
 
@@ -133,6 +152,14 @@ export function createGameAssistRuntime(options: {
     diagnostics: buffer,
     registry,
     coordinator,
+    settings,
+    setFeatureEnabled(id, enabled) {
+      const exists = registry.snapshot(id);
+      if (!exists.ok) return exists;
+      const persisted = settings.persistFeatureEnablement(id, enabled);
+      if (!persisted.ok) return persisted;
+      return coordinator.setFeatureEnabled(id, enabled);
+    },
     bind() {
       if (bound) return ok(undefined);
       unsubscribers.push(

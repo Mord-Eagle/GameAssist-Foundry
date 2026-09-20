@@ -296,6 +296,8 @@ codename across moves unless the owner approves a rename.
 | GAMEASSIST_REGISTRY | `src/core/registry.ts` | Feature registration and isolated start/stop | active | _None_ |
 | GAMEASSIST_LIFECYCLE | `src/core/lifecycle.ts` | Init/ready/teardown phase machine | active | _None_ |
 | GAMEASSIST_PACKAGE | `src/core/package.ts` | Runtime composition and host binding | active | _None_ |
+| GAMEASSIST_SETTINGS | `src/core/settings.ts` | Settings registration, migration, and enablement persistence | active | _None_ |
+| GAMEASSIST_FOUNDRY_SETTINGS | `src/adapters/foundry/settings-storage.ts` | Foundry `game.settings` adapter | active | _None_ |
 | GAMEASSIST_DEMO_BEACON | `src/features/demo-beacon.ts` | Harmless lifecycle demonstration feature | experimental | _None_ |
 | GAMEASSIST_BUILD | `scripts/build.mjs` | esbuild client bundle | active | _None_ |
 | GAMEASSIST_VITEST_CONFIG | `vitest.config.ts` | Node unit-test configuration | active | _None_ |
@@ -323,7 +325,6 @@ into permanent doctrine.
 - ESLint and Prettier configuration.
 - Foundry test harness and live smoke checks.
 - Repeatable, owner-confirmed copy or symlink into `{userData}/Data/modules/gameassist/`.
-- Settings schema and migration mechanics.
 - Authority and socket protocol.
 - Minimum supported Foundry build after compatibility evidence exists.
 - Whether any initial compendium pack adds enough value to justify ownership.
@@ -339,4 +340,5 @@ Recorded in `docs/design/PHASE-0-TOOLING.md` and
 - Foundry package id `gameassist`, npm name `gameassist-foundry`.
 - No public `game.gameAssist` API in this slice.
 - Lifecycle coordinator plus feature registry, with in-memory enablement only.
+- Settings schema version 1, world-scoped feature enablement, and preserve-unknown-keys migration, recorded in `docs/design/SETTINGS-AND-MIGRATION.md`.
 

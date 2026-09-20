@@ -76,7 +76,12 @@ export const POLICY = {
    */
   featureIdPattern: /^[a-z][a-z0-9-]{1,62}$/,
   /** Allowed Foundry lifecycle hooks for the first host adapter. */
-  hostHooks: ["init", "ready"] as const
+  hostHooks: ["init", "ready"] as const,
+  /**
+   * GameAssist world-settings schema. Independent of package release.
+   * Increment only with a documented migration.
+   */
+  settingsSchemaVersion: 1
 } as const;
 // --- Notes & Comments ---
 // Changed (v0.1.0): establish package identity and the first core limits.

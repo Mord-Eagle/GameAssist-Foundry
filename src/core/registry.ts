@@ -77,7 +77,7 @@ export interface FeatureDefinition {
   id: string;
   title: string;
   description: string;
-  /** In-memory default until the settings service exists. */
+  /** Fallback when the feature id is absent from persisted enablement. */
   enabledByDefault: boolean;
   /**
    * Registration-only work at init. Must not touch world Documents.
@@ -159,6 +159,8 @@ export interface FeatureRegistry {
   beginGeneration(): Result<FeatureSnapshot[]>;
   invokeRegister(): Result<FeatureSnapshot[]>;
   startEnabled(): Result<FeatureSnapshot[]>;
+  startOne(id: string): Result<FeatureSnapshot>;
+  stopOne(id: string): Result<FeatureSnapshot>;
   stopAll(): Result<FeatureSnapshot[]>;
 }
 
@@ -202,6 +204,51 @@ export function createFeatureRegistry(diagnostics?: DiagnosticSink): FeatureRegi
       const message = cause instanceof Error ? cause.message : "unknown";
       return err("INTERNAL", { message });
     }
+  };
+
+  const startRecord = (record: FeatureRecord): void => {
+    if (!record.definition.onStart) {
+      record.status = "started";
+      record.lastError = undefined;
+      return;
+    }
+    const result = invoke(() => record.definition.onStart!());
+    if (result.ok) {
+      record.status = "started";
+      record.lastError = undefined;
+      return;
+    }
+    record.status = "failed";
+    record.lastError = result;
+    diagnose(
+      "error",
+      "feature.start.failed",
+      `Feature ${record.definition.id} failed during start.`,
+      record.definition.id
+    );
+  };
+
+  const stopRecord = (record: FeatureRecord): void => {
+    if (record.status !== "started") {
+      if (record.status !== "failed") record.status = "stopped";
+      return;
+    }
+    if (record.definition.onStop) {
+      const result = invoke(() => record.definition.onStop!());
+      if (!result.ok) {
+        record.status = "failed";
+        record.lastError = result;
+        diagnose(
+          "warning",
+          "feature.stop.failed",
+          `Feature ${record.definition.id} failed during stop.`,
+          record.definition.id
+        );
+        return;
+      }
+    }
+    record.status = "stopped";
+    record.lastError = undefined;
   };
 
   return {
@@ -277,51 +324,32 @@ export function createFeatureRegistry(diagnostics?: DiagnosticSink): FeatureRegi
         if (!record.enabled) continue;
         if (record.status === "started") continue;
         if (record.status === "failed") continue;
-        if (!record.definition.onStart) {
-          record.status = "started";
-          record.lastError = undefined;
-          continue;
-        }
-        const result = invoke(() => record.definition.onStart!());
-        if (result.ok) {
-          record.status = "started";
-          record.lastError = undefined;
-        } else {
-          record.status = "failed";
-          record.lastError = result;
-          diagnose(
-            "error",
-            "feature.start.failed",
-            `Feature ${record.definition.id} failed during start.`,
-            record.definition.id
-          );
-        }
+        startRecord(record);
       }
       return ok([...features.values()].map(toSnapshot));
     },
 
+    startOne(id) {
+      const record = features.get(id);
+      if (!record) return err("NOT_FOUND", { id });
+      if (!record.enabled) {
+        return err("UNAVAILABLE", { id, reason: "feature is disabled" });
+      }
+      if (record.status === "started") return ok(toSnapshot(record));
+      startRecord(record);
+      return ok(toSnapshot(record));
+    },
+
+    stopOne(id) {
+      const record = features.get(id);
+      if (!record) return err("NOT_FOUND", { id });
+      stopRecord(record);
+      return ok(toSnapshot(record));
+    },
+
     stopAll() {
       for (const record of features.values()) {
-        if (record.status !== "started") {
-          if (record.status !== "failed") record.status = "stopped";
-          continue;
-        }
-        if (record.definition.onStop) {
-          const result = invoke(() => record.definition.onStop!());
-          if (!result.ok) {
-            record.status = "failed";
-            record.lastError = result;
-            diagnose(
-              "warning",
-              "feature.stop.failed",
-              `Feature ${record.definition.id} failed during stop.`,
-              record.definition.id
-            );
-            continue;
-          }
-        }
-        record.status = "stopped";
-        record.lastError = undefined;
+        stopRecord(record);
       }
       return ok([...features.values()].map(toSnapshot));
     }

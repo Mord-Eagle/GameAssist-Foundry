@@ -40,6 +40,7 @@
 import type { DiagnosticSink } from "./diagnostics";
 import type { FeatureRegistry, FeatureSnapshot } from "./registry";
 import { err, ok, type Result } from "./result";
+import type { SettingsService } from "./settings";
 
 // ============================================================================
 // [GAMEASSIST_LIFECYCLE:POLICY] BEGIN
@@ -93,6 +94,7 @@ export type LifecyclePhase = "idle" | "init" | "ready" | "stopped";
 // Narrative
 // The coordinator translates host notifications into registry operations. It
 // does not import feature modules. Restart is teardown followed by a new init.
+// Settings registration and migration happen at init before feature callbacks.
 // -----------------------------------------------------------------------------
 
 /**
@@ -110,6 +112,7 @@ export interface LifecycleCoordinator {
   snapshot(): LifecycleSnapshot;
   handleInit(): Result<LifecycleSnapshot>;
   handleReady(): Result<LifecycleSnapshot>;
+  setFeatureEnabled(id: string, enabled: boolean): Result<FeatureSnapshot>;
   teardown(): Result<LifecycleSnapshot>;
 }
 
@@ -119,8 +122,9 @@ export interface LifecycleCoordinator {
 export function createLifecycleCoordinator(options: {
   registry: FeatureRegistry;
   diagnostics?: DiagnosticSink;
+  settings?: SettingsService;
 }): LifecycleCoordinator {
-  const { registry, diagnostics } = options;
+  const { registry, diagnostics, settings } = options;
   let phase: LifecyclePhase = "idle";
 
   const snapshot = (): LifecycleSnapshot => ({
@@ -139,9 +143,23 @@ export function createLifecycleCoordinator(options: {
       if (phase === "init" || phase === "ready") {
         return ok(snapshot());
       }
-      // ORDER: reset failed/stopped features before register so a new generation
-      // can retry without hiding an in-flight started feature.
+      // ORDER: register settings, migrate, reset generation, hydrate
+      // enablement, then feature onRegister. Settings access never precedes
+      // registration.
+      if (settings) {
+        const registered = settings.register();
+        if (!registered.ok) {
+          diagnostics?.record({
+            level: "warning",
+            code: "settings.register.failed",
+            message: "Settings storage was unavailable; in-memory defaults will be used."
+          });
+        } else {
+          settings.migrate();
+        }
+      }
       registry.beginGeneration();
+      if (settings) settings.applyFeatureEnablement(registry);
       registry.invokeRegister();
       phase = "init";
       note("lifecycle.init", "GameAssist completed init registration.");
@@ -162,6 +180,13 @@ export function createLifecycleCoordinator(options: {
       phase = "ready";
       note("lifecycle.ready", "GameAssist reached ready.");
       return ok(snapshot());
+    },
+
+    setFeatureEnabled(id, enabled) {
+      const updated = registry.setEnabled(id, enabled);
+      if (!updated.ok) return updated;
+      if (phase !== "ready") return updated;
+      return enabled ? registry.startOne(id) : registry.stopOne(id);
     },
 
     teardown() {

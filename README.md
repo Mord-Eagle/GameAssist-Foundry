@@ -42,6 +42,8 @@ explicit deployment step.
   manifest, and validation strategy.
 - [Lifecycle and Registry](docs/design/LIFECYCLE-AND-REGISTRY.md) - first
   Phase 1 core-service design record.
+- [Settings and Migration](docs/design/SETTINGS-AND-MIGRATION.md) - schema 1
+  persistence for feature enablement.
 - [Development Workflow](docs/DEVELOPMENT.md) - maintainer setup, GitHub
   authorization, branch practices, Foundry deployment boundaries, and recovery.
 - [MECHSUITS v1.6.0](MECHSUITS%20v1.6.0.md) - universal structure,

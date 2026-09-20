@@ -29,11 +29,13 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Added
 
+- 2026-09-20 - Added the settings and migration service: schema version 1,
+  world-scoped feature enablement, Foundry `game.settings` adapter, and
+  memory storage for contract tests. Unknown keys are preserved; malformed
+  values are left in place.
 - 2026-09-20 - Added the first installable package shell: TypeScript source,
   esbuild client bundle, Foundry `module.json`, feature registry, lifecycle
-  coordinator, and a harmless `demo-beacon` demonstration feature. Local
-  typecheck, unit tests, and build are implemented; live Foundry behavior is
-  not verified.
+  coordinator, and a harmless `demo-beacon` demonstration feature.
 - 2026-09-20 - Added the Phase 0 tooling decision record and the Phase 1
   lifecycle-and-registry design record.
 - 2026-08-31 - Added the project architecture record, compatibility and
@@ -58,9 +60,11 @@ that apply: `Added`, `Changed`, `Fixed`, `Deprecated`, `Removed`, `Security`,
 
 ### Documentation
 
+- 2026-09-20 - Recorded the settings and migration design; registered
+  `GAMEASSIST_SETTINGS` and `GAMEASSIST_FOUNDRY_SETTINGS`.
 - 2026-09-20 - Recorded TypeScript, esbuild, Vitest, manifest, localization,
   style, and validation choices; registered the first source codenames; and
-  marked Phase 1 item 1 in progress without claiming live Foundry evidence.
+  marked Phase 1 item 1 in progress.
 - 2026-08-31 - Locked the initial development baseline to Foundry VTT Version
   14 Stable, Build 367 with the official `dnd5e` system v5.3.3; separated the
   future AlmanacAssist package from GameAssist's implementation path; and

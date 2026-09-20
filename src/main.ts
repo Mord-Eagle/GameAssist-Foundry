@@ -36,6 +36,7 @@
 // Hooks, composes the runtime, and binds init/ready. It refuses a public
 // game.gameAssist API and refuses to throw when imported outside Foundry.
 
+import { createFoundrySettingsStorage } from "./adapters/foundry/settings-storage";
 import { createFoundryHost } from "./core/host";
 import { createGameAssistRuntime } from "./core/package";
 import { createDemoBeacon } from "./features/demo-beacon";
