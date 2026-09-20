@@ -2,8 +2,8 @@
 // mechsuit:
 //   codename: "GAMEASSIST_DIAGNOSTICS"
 //   project_version: "v0.1.0"
-//   purpose: "Retain a bounded, privacy-aware local diagnostic history for foundation lifecycle events."
-//   order: ["validate", "record", "evict"]
+//   purpose: "Retain bounded local diagnostics and derive package health without external telemetry."
+//   order: ["validate", "record", "evict", "assess"]
 //   applicability:
 //     runtime: "foundry_client"
 //     artifact: "source"
@@ -28,10 +28,12 @@
 //   variances: []
 //   canonical_tree: |
 //     [GAMEASSIST_DIAGNOSTICS]/
-//     `-- [GAMEASSIST_DIAGNOSTICS:BUFFER]
+//     |-- [GAMEASSIST_DIAGNOSTICS:BUFFER]
+//     `-- [GAMEASSIST_DIAGNOSTICS:HEALTH]
 // --- prose banner ---
-// This provisional buffer stores code-owned lifecycle evidence locally. It
-// refuses external telemetry and refuses to store user-authored content.
+// This buffer stores code-owned evidence locally and derives package health
+// from current feature and capability status. It refuses external telemetry
+// and refuses to store user-authored content.
 
 import { POLICY } from "./constants";
 
@@ -46,14 +48,13 @@ import { POLICY } from "./constants";
 //   guarantees: ["Capacity is bounded.", "Recorded events are copies, not caller-owned objects."],
 //   provides: ["DiagnosticSink", "DiagnosticBuffer", "createDiagnosticBuffer"],
 //   last_updated_version: "v0.1.0",
-//   lifecycle: "experimental"
+//   lifecycle: "active"
 // }
 // -----------------------------------------------------------------------------
 // Narrative
-// The later diagnostics service will replace this buffer. The first slice needs
-// inspectable startup evidence without pretending that service already exists.
 // Events use wall-clock milliseconds because maintainers read them as "when",
-// not as durations.
+// not as durations. failures() is the inspectable error subset for Control
+// Center and tests; it does not itself decide package health.
 // -----------------------------------------------------------------------------
 
 /**
@@ -87,6 +88,8 @@ export interface DiagnosticSink {
 export interface DiagnosticBuffer extends DiagnosticSink {
   /** Returns a copy of retained events, oldest first. */
   list(): DiagnosticEvent[];
+  /** Returns a copy of error-level events, oldest first. */
+  failures(): DiagnosticEvent[];
   /** Drops retained events. Does not emit telemetry. */
   clear(): void;
 }
@@ -100,6 +103,9 @@ export function createDiagnosticBuffer(
   now: () => number = Date.now
 ): DiagnosticBuffer {
   const events: DiagnosticEvent[] = [];
+
+  const copies = (filter?: (event: DiagnosticEvent) => boolean): DiagnosticEvent[] =>
+    events.filter(filter ?? (() => true)).map((event) => ({ ...event }));
 
   return {
     record(event) {
@@ -119,7 +125,10 @@ export function createDiagnosticBuffer(
       }
     },
     list() {
-      return events.map((event) => ({ ...event }));
+      return copies();
+    },
+    failures() {
+      return copies((event) => event.level === "error");
     },
     clear() {
       events.length = 0;
@@ -127,10 +136,95 @@ export function createDiagnosticBuffer(
   };
 }
 // --- Notes & Comments ---
-// Changed (v0.1.0): add a provisional bounded diagnostic buffer for lifecycle
-// evidence. Experimental until the diagnostics service design lands.
+// Changed (v0.1.0): add a bounded diagnostic buffer and inspectable failures().
 // Decision log:
 //   CHOICE: in-memory ring buffer - ALT: console only; REJECTED: tests need
 //   inspectable history without scraping stdout.
 // [GAMEASSIST_DIAGNOSTICS:BUFFER] END
+// ============================================================================
+
+// ============================================================================
+// [GAMEASSIST_DIAGNOSTICS:HEALTH] BEGIN
+// Section Title: Package health snapshot
+// -----------------------------------------------------------------------------
+// mechsuit_section: {
+//   codename: "GAMEASSIST_DIAGNOSTICS",
+//   area: "HEALTH",
+//   title: "Package health",
+//   guarantees: [
+//     "Unknown capabilities do not degrade health.",
+//     "Historical diagnostic errors do not degrade health after recovery."
+//   ],
+//   provides: ["PackageHealth", "assessPackageHealth"],
+//   last_updated_version: "v0.1.0",
+//   lifecycle: "active"
+// }
+// -----------------------------------------------------------------------------
+// Narrative
+// Health is derived from the current lifecycle phase, feature statuses, and
+// incompatible capability reports. Old error diagnostics remain inspectable
+// through failures() without keeping a recovered package degraded.
+// -----------------------------------------------------------------------------
+
+/**
+ * Package serving status derived from current runtime facts.
+ */
+export type PackageHealthStatus = "healthy" | "degraded" | "unavailable";
+
+/**
+ * Inspectable health snapshot. Ids are code-owned.
+ */
+export interface PackageHealth {
+  status: PackageHealthStatus;
+  phase: "idle" | "init" | "ready" | "stopped";
+  failedFeatureIds: string[];
+  incompatibleCapabilityIds: string[];
+  failureCount: number;
+  /** Wall-clock milliseconds since Unix epoch. */
+  at: number;
+}
+
+/**
+ * Derives package health from current snapshots.
+ *
+ * @param input.phase - Lifecycle phase.
+ * @param input.features - Current feature statuses.
+ * @param input.capabilities - Optional capability reports.
+ * @param input.failureCount - Error-level diagnostic count for inspection.
+ * @param input.at - Assessment time.
+ */
+export function assessPackageHealth(input: {
+  phase: PackageHealth["phase"];
+  features: ReadonlyArray<{ id: string; status: string }>;
+  capabilities?: { reports: ReadonlyArray<{ id: string; status: string }> };
+  failureCount: number;
+  at: number;
+}): PackageHealth {
+  const failedFeatureIds = input.features
+    .filter((feature) => feature.status === "failed")
+    .map((feature) => feature.id);
+  const incompatibleCapabilityIds = (input.capabilities?.reports ?? [])
+    .filter((report) => report.status === "incompatible")
+    .map((report) => report.id);
+  let status: PackageHealthStatus = "healthy";
+  if (input.phase !== "ready") {
+    status = "unavailable";
+  } else if (failedFeatureIds.length > 0 || incompatibleCapabilityIds.length > 0) {
+    status = "degraded";
+  }
+  return {
+    status,
+    phase: input.phase,
+    failedFeatureIds: [...failedFeatureIds],
+    incompatibleCapabilityIds: [...incompatibleCapabilityIds],
+    failureCount: input.failureCount,
+    at: input.at
+  };
+}
+// --- Notes & Comments ---
+// Changed (v0.1.0): add package health assessment for Control Center consumers.
+// Decision log:
+//   CHOICE: unknown capabilities do not degrade - ALT: treat unknown as
+//   degraded; REJECTED: Node tests and deferred probes would look unhealthy.
+// [GAMEASSIST_DIAGNOSTICS:HEALTH] END
 // ============================================================================

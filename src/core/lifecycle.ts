@@ -39,6 +39,7 @@
 
 import type { CapabilityService, CapabilitySnapshot } from "./capabilities";
 import type { DiagnosticSink } from "./diagnostics";
+import { EVENT_TYPES, type EventPublisher } from "./events";
 import type { FeatureRegistry, FeatureSnapshot } from "./registry";
 import { err, ok, type Result } from "./result";
 import type { SettingsService } from "./settings";
@@ -126,8 +127,9 @@ export function createLifecycleCoordinator(options: {
   diagnostics?: DiagnosticSink;
   settings?: SettingsService;
   capabilities?: CapabilityService;
+  events?: EventPublisher;
 }): LifecycleCoordinator {
-  const { registry, diagnostics, settings, capabilities } = options;
+  const { registry, diagnostics, settings, capabilities, events } = options;
   let phase: LifecyclePhase = "idle";
 
   const snapshot = (): LifecycleSnapshot => ({
@@ -138,6 +140,17 @@ export function createLifecycleCoordinator(options: {
 
   const note = (code: string, message: string): void => {
     diagnostics?.record({ level: "info", code, message });
+  };
+
+  const emitLifecycle = (type: string, phase: LifecyclePhase): void => {
+    const published = events?.publish({ type, payload: { phase } });
+    if (published && !published.ok) {
+      diagnostics?.record({
+        level: "warning",
+        code: "events.publish.failed",
+        message: `Failed to publish ${type}.`
+      });
+    }
   };
 
   return {
@@ -185,6 +198,7 @@ export function createLifecycleCoordinator(options: {
       capabilities?.refresh();
       phase = "ready";
       note("lifecycle.ready", "GameAssist reached ready.");
+      emitLifecycle(EVENT_TYPES.lifecycleReady, "ready");
       return ok(snapshot());
     },
 
@@ -203,6 +217,7 @@ export function createLifecycleCoordinator(options: {
       registry.stopAll();
       phase = "stopped";
       note("lifecycle.teardown", "GameAssist completed teardown.");
+      emitLifecycle(EVENT_TYPES.lifecycleStopped, "stopped");
       return ok(snapshot());
     }
   };

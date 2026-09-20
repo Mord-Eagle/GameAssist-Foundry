@@ -235,10 +235,10 @@ facts are not automatically treated as proof of cause.
 
 ## Authority and Privacy
 
-Client visibility is not mutation authority. A future authority service must
-decide who may request an action, which active GM may perform privileged work,
-how requests are correlated and deduplicated, and how stale or failed requests
-are reported.
+Client visibility is not mutation authority. The authority service decides who
+may request an action, which active GM may perform privileged work, how
+requests are correlated and deduplicated, and how stale or failed requests are
+reported.
 
 The package must not expose hidden Actors, secret rolls, GM-only settings,
 private targets, or privileged diagnostics to players. Socket transport does
@@ -249,6 +249,9 @@ not weaken these requirements.
 GameAssist may publish narrowly defined semantic events such as a verified
 health transition or approved turn progression. These events describe meaning,
 not raw Hook traffic. They do not imply that Foundry will await subscribers.
+The in-process bus is recorded in `docs/design/EVENTS-AND-DIAGNOSTICS.md`.
+Foundation types cover lifecycle and feature start/stop/fail. Domain types wait
+for their owning services.
 
 An event contract must define payload, authority, privacy, ordering,
 idempotency, and failure behavior before it becomes a dependency.
@@ -291,7 +294,7 @@ codename across moves unless the owner approves a rename.
 | GAMEASSIST_MAIN | `src/main.ts` | Foundry package entrypoint | active | _None_ |
 | GAMEASSIST_CONSTANTS | `src/core/constants.ts` | Package id and core policy knobs | active | _None_ |
 | GAMEASSIST_RESULT | `src/core/result.ts` | Internal ok/err envelope | active | _None_ |
-| GAMEASSIST_DIAGNOSTICS | `src/core/diagnostics.ts` | Bounded local diagnostic buffer | experimental | _None_ |
+| GAMEASSIST_DIAGNOSTICS | `src/core/diagnostics.ts` | Bounded local diagnostics and package health | active | _None_ |
 | GAMEASSIST_HOST | `src/core/host.ts` | Foundry and memory host adapters | active | _None_ |
 | GAMEASSIST_REGISTRY | `src/core/registry.ts` | Feature registration and isolated start/stop | active | _None_ |
 | GAMEASSIST_LIFECYCLE | `src/core/lifecycle.ts` | Init/ready/teardown phase machine | active | _None_ |
@@ -303,6 +306,7 @@ codename across moves unless the owner approves a rename.
 | GAMEASSIST_DND5E_CAPABILITIES | `src/adapters/dnd5e/capabilities.ts` | `dnd5e` identity evaluation | active | _None_ |
 | GAMEASSIST_AUTHORITY | `src/core/authority.ts` | Privileged-request authorization and GM selection | active | _None_ |
 | GAMEASSIST_FOUNDRY_USERS | `src/adapters/foundry/users.ts` | Foundry user directory adapter | active | _None_ |
+| GAMEASSIST_EVENTS | `src/core/events.ts` | In-process semantic event bus | active | _None_ |
 | GAMEASSIST_DEMO_BEACON | `src/features/demo-beacon.ts` | Harmless lifecycle demonstration feature | experimental | _None_ |
 | GAMEASSIST_BUILD | `scripts/build.mjs` | esbuild client bundle | active | _None_ |
 | GAMEASSIST_VITEST_CONFIG | `vitest.config.ts` | Node unit-test configuration | active | _None_ |
@@ -353,4 +357,8 @@ Recorded in `docs/design/PHASE-0-TOOLING.md` and
 - Authority service for responsible GM selection, request idempotency, and
   stale-request rejection. Recorded in `docs/design/AUTHORITY.md`. Sockets
   remain disabled until a feature needs them.
+- In-process semantic event bus, inspectable diagnostic failures, and package
+  health (`healthy` / `degraded` / `unavailable`). Recorded in
+  `docs/design/EVENTS-AND-DIAGNOSTICS.md`. Foundry Hooks are not the
+  GameAssist event contract.
 

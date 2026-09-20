@@ -25,7 +25,10 @@
 
 import { describe, expect, it } from "vitest";
 import { POLICY } from "../src/core/constants";
-import { createDiagnosticBuffer } from "../src/core/diagnostics";
+import {
+  assessPackageHealth,
+  createDiagnosticBuffer
+} from "../src/core/diagnostics";
 
 // ============================================================================
 // [GAMEASSIST_DIAGNOSTICS_TEST:CASES] BEGIN
@@ -67,6 +70,53 @@ describe("diagnostic buffer", () => {
     const event = first[0];
     if (event) event.message = "mutated";
     expect(buffer.list()[0]?.message).toBe("init");
+  });
+
+  it("returns only error-level events from failures()", () => {
+    const buffer = createDiagnosticBuffer(() => 7);
+    buffer.record({ level: "info", code: "lifecycle.init", message: "init" });
+    buffer.record({ level: "error", code: "feature.start.failed", message: "boom" });
+    buffer.record({ level: "warning", code: "authority.denied", message: "no" });
+    const failures = buffer.failures();
+    expect(failures).toHaveLength(1);
+    expect(failures[0]?.code).toBe("feature.start.failed");
+  });
+});
+
+describe("package health", () => {
+  it("is healthy when ready with no failed features", () => {
+    const health = assessPackageHealth({
+      phase: "ready",
+      features: [{ id: "demo-beacon", status: "started" }],
+      capabilities: { reports: [{ id: "foundry", status: "unknown" }] },
+      failureCount: 0,
+      at: 9
+    });
+    expect(health.status).toBe("healthy");
+    expect(health.failedFeatureIds).toEqual([]);
+  });
+
+  it("is unavailable when the package is not ready", () => {
+    expect(
+      assessPackageHealth({
+        phase: "idle",
+        features: [],
+        failureCount: 0,
+        at: 1
+      }).status
+    ).toBe("unavailable");
+  });
+
+  it("is degraded when a feature failed even if historical errors were later recovered", () => {
+    const health = assessPackageHealth({
+      phase: "ready",
+      features: [{ id: "boom", status: "failed" }],
+      failureCount: 3,
+      at: 2
+    });
+    expect(health.status).toBe("degraded");
+    expect(health.failedFeatureIds).toEqual(["boom"]);
+    expect(health.failureCount).toBe(3);
   });
 });
 // --- Notes & Comments ---

@@ -41,10 +41,13 @@ import {
   type SystemCapabilityEvaluator
 } from "./capabilities";
 import {
+  assessPackageHealth,
   createDiagnosticBuffer,
   type DiagnosticBuffer,
-  type DiagnosticSink
+  type DiagnosticSink,
+  type PackageHealth
 } from "./diagnostics";
+import { createEventBus, type EventBus } from "./events";
 import {
   createAuthorityService,
   createMemoryUserDirectory,
@@ -104,9 +107,11 @@ export interface GameAssistRuntime {
   readonly settings: SettingsService;
   readonly capabilities: CapabilityService;
   readonly authority: AuthorityService;
+  readonly events: EventBus;
   bind(): Result<void>;
   unbind(): Result<void>;
   setFeatureEnabled(id: string, enabled: boolean): Result<FeatureSnapshot>;
+  health(): PackageHealth;
 }
 
 function unknownSystemEvaluator(): ReturnType<SystemCapabilityEvaluator> {
@@ -154,7 +159,8 @@ export function createGameAssistRuntime(options: {
       if (latest) options.host.diagnose(latest);
     }
   };
-  const registry = createFeatureRegistry(sink);
+  const events = createEventBus({ diagnostics: sink });
+  const registry = createFeatureRegistry(sink, events);
   const storage = options.storage ?? createMemorySettingsStorage();
   const settings = createSettingsService({ storage, diagnostics: sink });
   const capabilities = createCapabilityService({
@@ -168,7 +174,8 @@ export function createGameAssistRuntime(options: {
     registry,
     diagnostics: sink,
     settings,
-    capabilities
+    capabilities,
+    events
   });
   const unsubscribers: Array<() => void> = [];
   let bound = false;
@@ -197,6 +204,17 @@ export function createGameAssistRuntime(options: {
     settings,
     capabilities,
     authority,
+    events,
+    health() {
+      const snapshot = coordinator.snapshot();
+      return assessPackageHealth({
+        phase: snapshot.phase,
+        features: snapshot.features,
+        capabilities: snapshot.capabilities,
+        failureCount: buffer.failures().length,
+        at: Date.now()
+      });
+    },
     setFeatureEnabled(id, enabled) {
       const exists = registry.snapshot(id);
       if (!exists.ok) return exists;

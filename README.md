@@ -47,6 +47,8 @@ explicit deployment step.
 - [Capability and dnd5e Adapter](docs/design/CAPABILITY-AND-DND5E-ADAPTER.md) -
   version-aware host/system detection.
 - [Authority](docs/design/AUTHORITY.md) - privileged-request authorization.
+- [Events and Diagnostics](docs/design/EVENTS-AND-DIAGNOSTICS.md) - in-process
+  semantic events and package health.
 - [Development Workflow](docs/DEVELOPMENT.md) - maintainer setup, GitHub
   authorization, branch practices, Foundry deployment boundaries, and recovery.
 - [MECHSUITS v1.6.0](MECHSUITS%20v1.6.0.md) - universal structure,

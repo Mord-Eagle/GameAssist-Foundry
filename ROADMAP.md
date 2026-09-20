@@ -198,6 +198,9 @@ Review and implement these foundations in order:
    meanings, structured local diagnostics, health reporting, and inspectable
    failure evidence. Foundry Hooks remain synchronous notification points;
    asynchronous workflows must not depend on Foundry awaiting Hook callbacks.
+   Design recorded in `docs/design/EVENTS-AND-DIAGNOSTICS.md`. Foundation
+   lifecycle and feature events, `runtime.health()`, and `failures()` are
+   implemented; domain events wait for their owning services.
 6. **Control Center and navigation shell** - Compact GM entry point, module
    settings, help, capability status, recovery, and consistent navigation.
 

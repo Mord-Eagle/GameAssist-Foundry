@@ -37,6 +37,7 @@
 
 import { POLICY } from "./constants";
 import type { DiagnosticSink } from "./diagnostics";
+import { EVENT_TYPES, type EventPublisher } from "./events";
 import { err, ok, type Failure, type Result } from "./result";
 
 // ============================================================================
@@ -168,8 +169,12 @@ export interface FeatureRegistry {
  * Creates an empty feature registry.
  *
  * @param diagnostics - Optional local sink for isolated failures.
+ * @param events - Optional GameAssist event bus for start/stop/fail meaning.
  */
-export function createFeatureRegistry(diagnostics?: DiagnosticSink): FeatureRegistry {
+export function createFeatureRegistry(
+  diagnostics?: DiagnosticSink,
+  events?: EventPublisher
+): FeatureRegistry {
   const features = new Map<string, FeatureRecord>();
 
   const toSnapshot = (record: FeatureRecord): FeatureSnapshot => {
@@ -206,16 +211,22 @@ export function createFeatureRegistry(diagnostics?: DiagnosticSink): FeatureRegi
     }
   };
 
+  const emitFeature = (type: string, featureId: string): void => {
+    events?.publish({ type, payload: { featureId } });
+  };
+
   const startRecord = (record: FeatureRecord): void => {
     if (!record.definition.onStart) {
       record.status = "started";
       record.lastError = undefined;
+      emitFeature(EVENT_TYPES.featureStarted, record.definition.id);
       return;
     }
     const result = invoke(() => record.definition.onStart!());
     if (result.ok) {
       record.status = "started";
       record.lastError = undefined;
+      emitFeature(EVENT_TYPES.featureStarted, record.definition.id);
       return;
     }
     record.status = "failed";
@@ -226,6 +237,7 @@ export function createFeatureRegistry(diagnostics?: DiagnosticSink): FeatureRegi
       `Feature ${record.definition.id} failed during start.`,
       record.definition.id
     );
+    emitFeature(EVENT_TYPES.featureFailed, record.definition.id);
   };
 
   const stopRecord = (record: FeatureRecord): void => {
@@ -244,11 +256,13 @@ export function createFeatureRegistry(diagnostics?: DiagnosticSink): FeatureRegi
           `Feature ${record.definition.id} failed during stop.`,
           record.definition.id
         );
+        emitFeature(EVENT_TYPES.featureFailed, record.definition.id);
         return;
       }
     }
     record.status = "stopped";
     record.lastError = undefined;
+    emitFeature(EVENT_TYPES.featureStopped, record.definition.id);
   };
 
   return {
@@ -314,6 +328,7 @@ export function createFeatureRegistry(diagnostics?: DiagnosticSink): FeatureRegi
             `Feature ${record.definition.id} failed during register.`,
             record.definition.id
           );
+          emitFeature(EVENT_TYPES.featureFailed, record.definition.id);
         }
       }
       return ok([...features.values()].map(toSnapshot));

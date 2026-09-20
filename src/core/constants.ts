@@ -94,7 +94,11 @@ export const POLICY = {
   /** Maximum retained authorization decisions. Oldest drop first. */
   authorityLedgerCapacity: 100,
   operationIdPattern: /^[a-zA-Z0-9._:-]{1,128}$/,
-  operationTypePattern: /^[a-z][a-z0-9.-]{1,62}$/
+  operationTypePattern: /^[a-z][a-z0-9.-]{1,62}$/,
+  /** Maximum retained semantic events. Oldest drop first. */
+  eventHistoryCapacity: 50,
+  eventIdPattern: /^[a-zA-Z0-9._:-]{1,128}$/,
+  eventTypePattern: /^[a-z][a-z0-9.-]{1,62}$/
 } as const;
 // --- Notes & Comments ---
 // Changed (v0.1.0): establish package identity and the first core limits.
